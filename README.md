@@ -1,4 +1,4 @@
-# Benchmarking-foundation-models-and-specialized-models-for-financial-forecasting.
+# financial-forecasting-benchmark
 Research project on foundation models for financial forecasting.
 
 # Financial Foundation Model Benchmark

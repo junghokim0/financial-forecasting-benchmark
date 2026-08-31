@@ -303,6 +303,19 @@ Regression 모델은 미래 24시간 수익률 `raw_future_return`을 연속적�
 | Validation quantile loss | Chronos-2 공식 Validation quantile loss가 가장 낮은 adapter 선택 |
 | Validation official loss | TimesFM 공식 normalized MSE + quantile loss가 가장 낮은 adapter 선택 |
 
+모델별로 실제 적용한 최종 모델 선택 기준은 다음과 같다.
+
+| 모델 | 최종 모델을 고른 기준 |
+|---|---|
+| Ridge Regression | Regression 결과는 여러 `alpha` 중 Validation RMSE가 가장 낮은 값을 선택하고, Classification 결과는 Validation Macro F1이 가장 높은 값을 선택 |
+| LSTM·TimesNet Regression | 여러 epoch 중 Validation RMSE가 가장 낮은 checkpoint 선택 |
+| LSTM·TimesNet Classifier | 여러 epoch 중 Validation Macro F1이 가장 높은 checkpoint 선택 |
+| Chronos-2 | Validation quantile loss가 가장 낮은 LoRA adapter 선택 |
+| TimesFM 2.5 | Validation official loss가 가장 낮은 LoRA adapter 선택 |
+| Cryptova | Validation Macro F1이 가장 높은 checkpoint 선택 |
+
+모든 경우에 Test 결과는 최종 모델을 고르는 데 사용하지 않고, 선택이 끝난 모델의 최종 성능을 평가하는 데만 사용했다.
+
 Pearson과 Spearman은 오차의 크기를 측정하지 않는다. 예측값이 실제값보다 작더라도 함께
 오르내리거나 순서를 잘 맞히면 높은 상관을 가질 수 있다. 반대로 RMSE가 낮아도 예측값이
 0% 근처로 수축하면 상관관계와 SHORT/LONG 신호 성능은 낮을 수 있다. 따라서 본 연구에서는

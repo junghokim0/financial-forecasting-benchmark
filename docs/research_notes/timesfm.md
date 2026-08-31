@@ -505,7 +505,7 @@ LoRA는 입력·출력 shape나 TimesFM의 전체 forward 구조를 바꾸지 �
 | Gradient clipping | `1.0` |
 | Scheduler | CosineAnnealingLR |
 | Seed | 42 |
-| Selection | Validation 공식 loss 최소 |
+| 최종 모델 선택 기준 | Validation 공식 loss 최소 |
 
 학습 forward는 다음과 같다.
 

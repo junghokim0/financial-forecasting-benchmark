@@ -287,16 +287,16 @@ Regression 모델은 미래 24시간 수익률 `raw_future_return`을 연속적�
 | 용어 | 이 프로젝트에서의 의미 | 값 해석 |
 |---|---|---|
 | Zero-return baseline | 모델이 데이터를 학습하지 않고 모든 경우에 **“24시간 뒤 수익률은 0%”**라고 답하는 가장 단순한 비교 기준 | 실제 수익률과 비교한 오차는 RMSE `0.022948`, MAE `0.016422`이다. 항상 같은 값만 답하므로 상승·하락을 예측하지 않으며, 상관계수와 방향 정확도는 계산하지 않아 `N/A`로 표시한다. |
-| Selection | 여러 checkpoint 또는 hyperparameter 중 최종 모델을 고른 Validation 기준 | Test 성능이 아니라 Validation만 사용; 낮은 loss/RMSE 또는 높은 Macro F1을 선택 |
+| 최종 모델 선택 기준 | 여러 checkpoint 또는 hyperparameter 중 최종 모델을 고르는 Validation 기준 | Test 성능은 선택에 사용하지 않고 Validation 결과만 사용한다. 낮은 loss/RMSE 또는 높은 Macro F1을 기준으로 선택한다. |
 | RMSE | 예측 수익률 오차를 제곱·평균한 뒤 제곱근을 계산 | 낮을수록 좋고 큰 오차에 더 큰 penalty; `0.023178`은 약 2.32%p 규모의 RMSE |
 | MAE | 실제 수익률과 예측 수익률 차이의 절댓값 평균 | 낮을수록 좋음; `0.016620`은 평균적으로 약 1.66%p 차이 |
 | Pearson | 실제 수익률과 예측 수익률 사이의 선형 상관계수 | `+1`에 가까울수록 같은 방향의 선형관계, `0`은 선형관계가 거의 없음, 음수는 반대 관계 |
 | Spearman | 실제·예측 수익률의 크기 순위 사이 상관계수 | 높은 수익 구간을 상대적으로 높게 순위화하는지 평가; `+1`에 가까울수록 좋음 |
 | Directional Accuracy | 예측 수익률과 실제 수익률의 부호가 같은 표본 비율 | 미래 24시간이 상승인지 하락인지 맞힌 비율; 수익률 크기와 ±1.2% 신호 정답 여부는 평가하지 않음 |
 
-`Selection`은 평가 지표가 아니라 **최종 후보를 고른 규칙**이다.
+`최종 모델 선택 기준`은 평가 지표가 아니라 **학습 중 만들어진 여러 후보 가운데 최종 Test에 사용할 모델을 고르는 규칙**이다.
 
-| Selection 표기 | 선택 방법 |
+| 표기 | 최종 모델을 선택하는 방법 |
 |---|---|
 | Validation RMSE | Validation RMSE가 가장 낮은 checkpoint 또는 alpha 선택 |
 | Validation Macro F1 | Validation Macro F1이 가장 높은 checkpoint 또는 alpha 선택 |
@@ -884,7 +884,7 @@ Connected OOS Macro F1은 `0.381875`, Balanced Accuracy는 `0.393802`로 현재 
 
 ### 5.1 Regression Track
 
-| Model | Input | Selection | RMSE | MAE | Pearson | Spearman | Directional Accuracy |
+| Model | Input | 최종 모델 선택 기준 | RMSE | MAE | Pearson | Spearman | Directional Accuracy |
 |---|---|---|---:|---:|---:|---:|---:|
 | Zero-return baseline | No input | None; always predicts `0%` | **0.022948** | **0.016422** | N/A | N/A | N/A |
 | Ridge-Flat | Chart | Validation RMSE | 0.023178 | 0.016620 | -0.0471 | -0.0454 | 46.84% |

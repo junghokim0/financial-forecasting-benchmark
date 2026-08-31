@@ -286,7 +286,7 @@ Regression 모델은 미래 24시간 수익률 `raw_future_return`을 연속적�
 
 | 용어 | 이 프로젝트에서의 의미 | 값 해석 |
 |---|---|---|
-| Zero-return baseline | 입력이나 학습 없이 모든 표본의 미래 24시간 수익률을 `0%`로 예측하는 naive Regression 기준선 | 연결 OOS RMSE `0.022948`, MAE `0.016422`; 상수 예측이므로 Pearson·Spearman과 상승·하락 방향 예측은 `N/A` |
+| Zero-return baseline | 모델이 데이터를 학습하지 않고 모든 경우에 **“24시간 뒤 수익률은 0%”**라고 답하는 가장 단순한 비교 기준 | 실제 수익률과 비교한 오차는 RMSE `0.022948`, MAE `0.016422`이다. 항상 같은 값만 답하므로 상승·하락을 예측하지 않으며, 상관계수와 방향 정확도는 계산하지 않아 `N/A`로 표시한다. |
 | Selection | 여러 checkpoint 또는 hyperparameter 중 최종 모델을 고른 Validation 기준 | Test 성능이 아니라 Validation만 사용; 낮은 loss/RMSE 또는 높은 Macro F1을 선택 |
 | RMSE | 예측 수익률 오차를 제곱·평균한 뒤 제곱근을 계산 | 낮을수록 좋고 큰 오차에 더 큰 penalty; `0.023178`은 약 2.32%p 규모의 RMSE |
 | MAE | 실제 수익률과 예측 수익률 차이의 절댓값 평균 | 낮을수록 좋음; `0.016620`은 평균적으로 약 1.66%p 차이 |

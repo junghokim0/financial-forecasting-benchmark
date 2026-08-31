@@ -316,11 +316,6 @@ Regression 모델은 미래 24시간 수익률 `raw_future_return`을 연속적�
 
 모든 경우에 Test 결과는 최종 모델을 고르는 데 사용하지 않고, 선택이 끝난 모델의 최종 성능을 평가하는 데만 사용했다.
 
-Pearson과 Spearman은 오차의 크기를 측정하지 않는다. 예측값이 실제값보다 작더라도 함께
-오르내리거나 순서를 잘 맞히면 높은 상관을 가질 수 있다. 반대로 RMSE가 낮아도 예측값이
-0% 근처로 수축하면 상관관계와 SHORT/LONG 신호 성능은 낮을 수 있다. 따라서 본 연구에서는
-RMSE·MAE, correlation, Directional Accuracy 및 Classification을 함께 해석한다.
-
 ---
 
 ## 3. 모델마다 달라도 되는 조건

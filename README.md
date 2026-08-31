@@ -49,11 +49,14 @@ For the complete frozen protocol—including split construction, leakage-prevent
 
 | Model | RMSE | MAE |
 |---|---:|---:|
-| **Ridge-Flat** | **0.023178** | **0.016620** |
+| **Zero-return baseline** | **0.022948** | **0.016422** |
+| Ridge-Flat | 0.023178 | 0.016620 |
 | LSTM | 0.023790 | 0.017203 |
 | TimesNet | 0.023916 | 0.017317 |
 | Chronos-2 LoRA | 0.024300 | 0.017148 |
 | TimesFM 2.5 LoRA | 0.024992 | 0.017804 |
+
+The zero-return baseline always predicts a future return of 0% and requires no training. It achieved the lowest RMSE and MAE; Ridge-Flat was the best-performing trained regression model but did not outperform this naive baseline.
 
 ### Classification and trading track
 

@@ -3,7 +3,7 @@
 ## 문서 정보
 
 - 문서 목적: 모든 비교 모델에 적용할 공통 실험 조건을 고정하고, 모델별 설정과 결과를 같은 형식으로 누적하여 최종 연구 결론을 도출한다.
-- Protocol version: `1.17`
+- Protocol version: `1.18`
 - 최초 고정일: `2026-08-27`
 - 공통 예측 설정: 원칙적으로 각 모델은 관측 시점 기준 과거 72시간의 정보를 바탕으로 미래 24시간 수익률 또는 SHORT/HOLD/LONG 신호를 예측한다. 단, TimesFM 2.5는 모델의 32-step patch 제약으로 공통 72시간 범위 내 최근 64시간을 입력받아 미래 24시간을 예측한다.
 - 주 연구 질문: **Cryptova는 기존 시계열 모델 및 foundation model과 비교하여 경쟁력이 있는가?**
@@ -286,6 +286,7 @@ Regression 모델은 미래 24시간 수익률 `raw_future_return`을 연속적�
 
 | 용어 | 이 프로젝트에서의 의미 | 값 해석 |
 |---|---|---|
+| Zero-return baseline | 입력이나 학습 없이 모든 표본의 미래 24시간 수익률을 `0%`로 예측하는 naive Regression 기준선 | 연결 OOS RMSE `0.022948`, MAE `0.016422`; 상수 예측이므로 Pearson·Spearman과 상승·하락 방향 예측은 `N/A` |
 | Selection | 여러 checkpoint 또는 hyperparameter 중 최종 모델을 고른 Validation 기준 | Test 성능이 아니라 Validation만 사용; 낮은 loss/RMSE 또는 높은 Macro F1을 선택 |
 | RMSE | 예측 수익률 오차를 제곱·평균한 뒤 제곱근을 계산 | 낮을수록 좋고 큰 오차에 더 큰 penalty; `0.023178`은 약 2.32%p 규모의 RMSE |
 | MAE | 실제 수익률과 예측 수익률 차이의 절댓값 평균 | 낮을수록 좋음; `0.016620`은 평균적으로 약 1.66%p 차이 |
@@ -420,11 +421,11 @@ Ridge-Flat은 항상 HOLD인 기준선보다 Macro F1이 소폭 높았지만 SHO
 
 #### Regression 결과 — RMSE-selected
 
-| Rolling | Seed | Best epoch | Zero-return RMSE | LSTM Test RMSE |
-|---|---:|---:|---:|---:|
-| rolling_1 | 42 | 14 | 0.015358 | 0.016097 |
-| rolling_2 | 42 | 24 | 0.023728 | 0.025003 |
-| rolling_3 | 42 | 30 | 0.028052 | 0.028625 |
+| Rolling | Seed | Best epoch | LSTM Test RMSE |
+|---|---:|---:|---:|
+| rolling_1 | 42 | 14 | 0.016097 |
+| rolling_2 | 42 | 24 | 0.025003 |
+| rolling_3 | 42 | 30 | 0.028625 |
 
 #### 연결 Out-of-Sample Regression 결과
 
@@ -737,11 +738,18 @@ Connected OOS Macro F1은 `0.381875`, Balanced Accuracy는 `0.393802`로 현재 
 
 | Model | Input | Selection | RMSE | MAE | Pearson | Spearman | Directional Accuracy |
 |---|---|---|---:|---:|---:|---:|---:|
+| Zero-return baseline | No input | None; always predicts `0%` | **0.022948** | **0.016422** | N/A | N/A | N/A |
 | Ridge-Flat | Chart | Validation RMSE | 0.023178 | 0.016620 | -0.0471 | -0.0454 | 46.84% |
 | LSTM | Chart | Validation RMSE | 0.023790 | 0.017203 | -0.0041 | -0.0478 | 46.97% |
 | TimesNet | Chart | Validation RMSE | 0.023916 | 0.017317 | -0.0223 | -0.0350 | 48.24% |
 | Chronos-2 LoRA Fine-tuned | Close target + Chart 12 past covariates | Validation quantile loss | 0.024300 | 0.017148 | -0.1095 | -0.0305 | 49.09% |
 | TimesFM 2.5 LoRA Fine-tuned | Close, latest 64h | Validation official loss | 0.024992 | 0.017804 | -0.0973 | -0.0501 | 49.83% |
+
+Zero-return baseline은 연결 OOS의 모든 실제 수익률에 대해 `0%`를 예측해 계산했다. 전체
+Regression 비교에서 RMSE와 MAE가 가장 낮았으며, Ridge-Flat은 **학습된 모델 중** 가장 낮은
+오차를 기록했지만 이 naive baseline을 능가하지 못했다. 상수 예측에는 수익률의 순위·선형관계나
+상승·하락 방향 예측이 존재하지 않으므로 Pearson, Spearman 및 Directional Accuracy를 `N/A`로
+표기한다.
 
 ### 5.2 Classification Track — Cryptova 주 비교
 
@@ -792,7 +800,7 @@ TimesNet 두 task는 CPU에서 동시에 실행했으므로 위 elapsed time은 
 
 | 관점 | 현재 우세 모델 | 해석 |
 |---|---|---|
-| Regression RMSE·MAE | Ridge-Flat | TimesNet의 주기 구조가 수익률 숫자 오차를 줄이지는 못함 |
+| Regression RMSE·MAE | Zero-return baseline; 학습 모델 중 Ridge-Flat | 모든 학습 모델이 항상 `0%`를 예측하는 naive baseline의 오차를 낮추지 못함 |
 | Regression Directional Accuracy | TimesFM 2.5 | 49.83%로 수치상 가장 높지만 50% 미만 |
 | Chronos-2 Regression | 기존 세 baseline보다 열세 | RMSE 0.024300, 음의 Pearson -0.1095로 안정적인 수익률 예측 관계를 확인하지 못함 |
 | TimesFM 2.5 Regression | 현재 Regression 모델 중 RMSE·MAE 최하위 | 방향 정확도는 상대적으로 높지만 수익률 크기와 상관관계 예측은 불안정 |
@@ -828,7 +836,7 @@ Test 기간, 미래 24시간 target, 고정 threshold, 거래비용 및 evaluato
 
 | 목적 | 가장 좋은 모델 | 근거 |
 |---|---|---|
-| 수익률 수치 예측 | **Ridge-Flat** | RMSE `0.023178`, MAE `0.016620`으로 가장 낮음 |
+| 수익률 수치 오차 최소 | **Zero-return baseline** | RMSE `0.022948`, MAE `0.016422`로 전체 최저; 학습 모델 중에는 Ridge-Flat이 가장 낮음 |
 | 상승·하락 부호 예측 | TimesFM 2.5 | 방향 정확도 `49.83%`로 상대적으로 가장 높지만 50% 미만이라 실질적인 강점으로 단정하기 어려움 |
 | 전체 신호 분류 | **Cryptova-Raw** | Macro F1 `0.381875`, Balanced Accuracy `0.393802`로 가장 높음 |
 | Chart-only 신호 분류 | **TimesNet Classifier** | Macro F1 `0.364654`로 Chart-only 모델 중 가장 높음 |
@@ -836,14 +844,14 @@ Test 기간, 미래 24시간 target, 고정 threshold, 거래비용 및 evaluato
 | LONG 탐지 | **Cryptova-Raw** | LONG Recall `0.3527`로 가장 높음 |
 | 실제 비용 반영 수익 | **Cryptova-Full** | 누적수익률 `+27.46%`로 가장 높음 |
 | 위험조정 거래성과 | **Cryptova-Full** | Sharpe-like `+1.143`으로 가장 높음 |
-| 단순하고 안정적인 baseline | **Ridge-Flat** | 낮은 예측 오차, 빠른 학습, 비교적 작은 MDD |
+| 학습 가능한 선형 baseline | **Ridge-Flat** | 학습 모델 중 가장 낮은 예측 오차, 빠른 학습, 비교적 작은 MDD |
 | 사전학습 모델 비교 | Chronos-2·TimesFM | 둘 다 현재 조건에서는 기존 모델과 Cryptova를 능가하지 못함 |
 
 #### 모델별 활용 목적 상세
 
 | 모델 | 현재 가장 적합한 활용 목적 | 실험 근거 | 주의점 |
 |---|---|---|---|
-| Ridge-Flat | 수익률 수치 예측 baseline | Regression 최저 RMSE `0.023178`, 최저 MAE `0.016620` | 수치 오차는 낮지만 강한 규제에서는 HOLD로 수축할 수 있음 |
+| Ridge-Flat | 학습 가능한 수익률 수치 예측 baseline | 학습 모델 중 최저 RMSE `0.023178`, 최저 MAE `0.016620` | Zero-return RMSE `0.022948`, MAE `0.016422`를 능가하지 못했고 강한 규제에서는 HOLD로 수축할 수 있음 |
 | LSTM Regression | 순차 구조를 반영한 기본 neural regression 비교군 | 5,921 parameter로 72시간 순서를 직접 처리 | RMSE `0.023790`으로 Ridge보다 낮은 성능이며 방향 정확도도 50% 미만 |
 | LSTM Classifier | 기본 recurrent direct-classification 비교군 | 수익률을 거치지 않고 SHORT/HOLD/LONG을 직접 학습 | Macro F1 `0.318197`, 수익률 `-39.67%`로 최종 성과가 낮음 |
 | TimesNet Regression | 주기 구조가 수익률 회귀에 기여하는지 검증 | FFT·2D convolution 기반 주기 modeling을 동일 데이터에서 시험 | RMSE `0.023916`으로 Ridge/LSTM보다 개선되지 않음 |
@@ -858,7 +866,7 @@ Test 기간, 미래 24시간 target, 고정 threshold, 거래비용 및 evaluato
 
 ```text
 수익률 숫자를 가장 가깝게 예측
-→ Ridge-Flat
+→ Zero-return baseline; 학습 모델 중 Ridge-Flat
 
 Chart만 사용해 SHORT/HOLD/LONG을 직접 분류
 → TimesNet Classifier
@@ -883,7 +891,7 @@ Foundation model의 전이 성능과 확률예측 연구
 
 | 모델 | 구조적 장점 | 이번 실험에서 확인된 장점 | 단점·한계 |
 |---|---|---|---|
-| Ridge-Flat | 단순하고 빠르며 계수 해석 가능; L2 규제로 공선성 완화 | 가장 낮은 RMSE·MAE; 복잡한 모델보다 강한 수치 예측 baseline | 비선형 상호작용, 동적 순차 패턴 및 반복 주기를 직접 modeling하지 못함 |
+| Ridge-Flat | 단순하고 빠르며 계수 해석 가능; L2 규제로 공선성 완화 | 학습 모델 중 가장 낮은 RMSE·MAE | Zero-return baseline을 능가하지 못했으며 비선형 상호작용, 동적 순차 패턴 및 반복 주기를 직접 modeling하지 못함 |
 | LSTM | 시간 순서와 비선형 순차 의존성을 hidden state로 처리 | 작은 parameter로 전체 72시간을 처리하는 neural baseline | Ridge보다 회귀 오차가 크고 Classifier의 거래손실과 MDD가 가장 큼 |
 | TimesNet | FFT로 주요 주기를 찾고 2D convolution으로 주기 내·주기 간 변화를 처리 | Chart-only 분류 최고 Macro F1 및 전체 최고 SHORT recall | 주기 구조가 Regression 오차를 개선하지 못했고 잦은 신호가 비용 후 손실로 연결 |
 | Chronos-2 LoRA | 대규모 사전학습, past covariate 처리, point·quantile forecast | Chart 12 covariate를 사용하는 foundation model 비교와 불확실성 출력 가능 | SHORT/LONG을 거의 탐지하지 못하고 음의 상관·수익률을 기록; 큰 base model 필요 |
@@ -956,7 +964,7 @@ Train에서는 분위수 경계가 약 1/3씩 나누도록 계산되지만 Test 
 
 ### 6.4 Regime별 수익률 예측 결과
 
-| Regime | 최저 RMSE 모델 | RMSE | 해석 |
+| Regime | 학습 모델 중 최저 RMSE | RMSE | 해석 |
 |---|---|---:|---|
 | 단기 상승 | Chronos-2 LoRA | 0.021902 | 방향 Regime 중 유일하게 Ridge보다 낮은 RMSE |
 | 단기 하락 | Ridge-Flat | 0.027231 | 모든 모델의 오차가 중립보다 커짐 |
@@ -964,8 +972,9 @@ Train에서는 분위수 경계가 약 1/3씩 나누도록 계산되지만 Test 
 | 고변동성 | Ridge-Flat | 0.027982 | 모든 모델에서 저변동성보다 오차가 큼 |
 | 저변동성 | Ridge-Flat | 0.018920 | Ridge의 낮은 전체 RMSE가 유지됨 |
 
-Ridge-Flat은 5개 구간 중 4개에서 가장 낮은 RMSE를 기록했다. Chronos-2는 단기 상승에서만
-최저 RMSE였으며, 이것만으로 일반적인 우위를 주장할 수는 없다.
+Zero-return baseline은 현재 Regime별 승자 계산에 포함하지 않았다. 아래 순위는 학습된 모델끼리의
+조건부 비교다. Ridge-Flat은 5개 구간 중 4개에서 가장 낮은 RMSE를 기록했다. Chronos-2는 단기
+상승에서만 최저 RMSE였으며, 이것만으로 일반적인 우위를 주장할 수는 없다.
 
 ### 6.5 Regime별 신호 분류 결과
 
@@ -1002,7 +1011,7 @@ Cryptova-Full의 전체 수익은 **고변동성 구간에서 발생한 이익�
 복합 Regime에서 최고 성능 모델은 다음과 같았다. 거래성과의 최고 모델은 거래 수가 적은
 경우가 있으므로 탐색적 결과로만 해석한다.
 
-| 복합 Regime | 최저 RMSE | 최고 Macro F1 | 최고 비용 반영 수익률 |
+| 복합 Regime | 학습 모델 중 최저 RMSE | 최고 Macro F1 | 최고 비용 반영 수익률 |
 |---|---|---|---|
 | 상승·고변동성 | Chronos-2 `0.023503` | Cryptova-Base `0.362986` | Cryptova-Full `+12.60%` (18회) |
 | 상승·저변동성 | Ridge `0.020347` | TimesNet `0.351864` | Chronos-2 `+0.17%` (7회) |
@@ -1023,7 +1032,8 @@ Regime별 최고 모델을 사후에 골라 전환하는 전략은 이번 분석
 현재 Connected OOS 기준으로는 우수하지 않았다. Chronos-2와 TimesFM 2.5의 RMSE는 각각
 `0.024300`, `0.024992`로 Ridge-Flat `0.023178`, LSTM `0.023790`, TimesNet `0.023916`보다
 높았다. Foundation model은 사전학습됐지만 현재 BTC target에 대한 수익률 수치 예측에서는
-전통·전용 baseline을 능가하지 못했다.
+전통·전용 학습 모델을 능가하지 못했다. 또한 Zero-return baseline의 RMSE `0.022948`보다도
+높아, 이번 Regression Track에서는 어떤 학습 모델도 naive `0%` 예측을 능가하지 못했다.
 
 ### 7.2 Foundation model이 Cryptova보다 우수한가?
 
@@ -1042,8 +1052,9 @@ close-only 64시간, Chronos-2는 close+Chart 12, Cryptova는 Chart+News를 사�
 
 ### 7.4 어떤 시장 regime에서 각 모델이 강한가?
 
-수익률 수치 예측은 Ridge-Flat이 단기 하락·중립 및 고·저변동성에서 가장 낮은 RMSE를 기록했고,
-Chronos-2는 단기 상승에서만 가장 낮았다. 신호 분류는 Cryptova-Raw가 단기 하락,
+학습 모델 간 수익률 수치 예측은 Ridge-Flat이 단기 하락·중립 및 고·저변동성에서 가장 낮은
+RMSE를 기록했고, Chronos-2는 단기 상승에서만 가장 낮았다. Zero-return baseline은 현재
+Regime별 승자 계산에 포함하지 않았다. 신호 분류는 Cryptova-Raw가 단기 하락,
 Cryptova-Base가 고변동성에서 가장 강했고, TimesNet Classifier가 단기 상승·중립·저변동성에서
 가장 높았다. 실제 거래에서 Cryptova-Full은 고변동성 `+48.74%`, 저변동성 `-14.31%`로 성과
 차이가 컸다. 따라서 Cryptova의 현재 경쟁력은 특히 **하락·고변동성 환경의 신호 처리와

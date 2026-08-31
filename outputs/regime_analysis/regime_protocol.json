@@ -1,0 +1,143 @@
+{
+  "schema_version": "1.0",
+  "created_after_global_results": true,
+  "frozen_before_regime_conditioned_metrics": true,
+  "regime_information_time": "sample_time",
+  "future_information_used_for_regime": false,
+  "trend": {
+    "source": "trailing return_72h computed from close at sample_time",
+    "threshold_source": "each rolling Train Q33/Q67 only",
+    "sign_guard": "DOWN additionally requires return_72h < 0; UP additionally requires return_72h > 0",
+    "down": "return_72h <= rolling Train Q33 AND return_72h < 0",
+    "sideways": "all rows that satisfy neither DOWN nor UP",
+    "up": "return_72h >= rolling Train Q67 AND return_72h > 0",
+    "thresholds": {
+      "rolling_1": {
+        "q33": -0.013232786859729916,
+        "q67": 0.021375167152305398
+      },
+      "rolling_2": {
+        "q33": -0.012926908645161217,
+        "q67": 0.018276878549619086
+      },
+      "rolling_3": {
+        "q33": -0.009527792670359862,
+        "q67": 0.017563708487364323
+      }
+    }
+  },
+  "volatility": {
+    "source": "trailing std_24h",
+    "threshold_source": "each rolling Train median only",
+    "high": "std_24h > rolling Train median",
+    "low": "std_24h <= rolling Train median",
+    "thresholds": {
+      "rolling_1": 0.00466694828902115,
+      "rolling_2": 0.004413903522568249,
+      "rolling_3": 0.004095081426641551
+    }
+  },
+  "backtest_attribution": "Run the canonical connected OOS non-overlap backtest once per model, then attribute selected trades to the entry-time regime.",
+  "combined_regime": "Cartesian combination of trend and volatility labels",
+  "models": [
+    {
+      "display_name": "Ridge-Flat",
+      "track": "regression",
+      "paths": [
+        "outputs/ridge_flat/rolling_1/rmse_selected/predictions_test.csv",
+        "outputs/ridge_flat/rolling_2/rmse_selected/predictions_test.csv",
+        "outputs/ridge_flat/rolling_3/rmse_selected/predictions_test.csv"
+      ]
+    },
+    {
+      "display_name": "LSTM Regression",
+      "track": "regression",
+      "paths": [
+        "outputs/lstm_regression/rolling_1/rmse_selected/predictions_test.csv",
+        "outputs/lstm_regression/rolling_2/rmse_selected/predictions_test.csv",
+        "outputs/lstm_regression/rolling_3/rmse_selected/predictions_test.csv"
+      ]
+    },
+    {
+      "display_name": "TimesNet Regression",
+      "track": "regression",
+      "paths": [
+        "outputs/timesnet_regression/connected_oos/predictions_test.csv"
+      ]
+    },
+    {
+      "display_name": "Chronos-2 LoRA",
+      "track": "regression",
+      "paths": [
+        "outputs/chronos2_lora_chart/connected_oos/predictions_test.csv"
+      ]
+    },
+    {
+      "display_name": "TimesFM 2.5 LoRA",
+      "track": "regression",
+      "paths": [
+        "outputs/timesfm2_5_lora_close/connected_oos/predictions_test.csv"
+      ]
+    },
+    {
+      "display_name": "Ridge-Flat",
+      "track": "classification",
+      "paths": [
+        "outputs/ridge_flat/rolling_1/macro_f1_selected/predictions_test.csv",
+        "outputs/ridge_flat/rolling_2/macro_f1_selected/predictions_test.csv",
+        "outputs/ridge_flat/rolling_3/macro_f1_selected/predictions_test.csv"
+      ]
+    },
+    {
+      "display_name": "LSTM Classifier",
+      "track": "classification",
+      "paths": [
+        "outputs/lstm_classifier/rolling_1/predictions_test.csv",
+        "outputs/lstm_classifier/rolling_2/predictions_test.csv",
+        "outputs/lstm_classifier/rolling_3/predictions_test.csv"
+      ]
+    },
+    {
+      "display_name": "TimesNet Classifier",
+      "track": "classification",
+      "paths": [
+        "outputs/timesnet_classifier/connected_oos/predictions_test.csv"
+      ]
+    },
+    {
+      "display_name": "Chronos-2 LoRA",
+      "track": "classification",
+      "paths": [
+        "outputs/chronos2_lora_chart/connected_oos/predictions_test.csv"
+      ]
+    },
+    {
+      "display_name": "TimesFM 2.5 LoRA",
+      "track": "classification",
+      "paths": [
+        "outputs/timesfm2_5_lora_close/connected_oos/predictions_test.csv"
+      ]
+    },
+    {
+      "display_name": "Cryptova-Raw",
+      "track": "classification",
+      "paths": [
+        "outputs/cryptova_raw_re_evaluation/connected_oos/predictions_test.csv"
+      ]
+    },
+    {
+      "display_name": "Cryptova-Base",
+      "track": "classification",
+      "paths": [
+        "outputs/cryptova_base_re_evaluation/connected_oos/predictions_test.csv"
+      ]
+    },
+    {
+      "display_name": "Cryptova-Full",
+      "track": "classification",
+      "paths": [
+        "outputs/cryptova_full_re_evaluation/connected_oos/predictions_test.csv"
+      ]
+    }
+  ]
+}

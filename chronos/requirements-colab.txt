@@ -1,0 +1,6 @@
+chronos-forecasting==2.3.1
+transformers>=4.49,<5
+peft>=0.14,<1
+accelerate>=1.1,<2
+scikit-learn>=1.5,<2
+pandas>=2,<4

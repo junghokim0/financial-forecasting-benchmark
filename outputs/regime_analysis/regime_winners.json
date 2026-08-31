@@ -1,0 +1,217 @@
+{
+  "regression_lowest_rmse": [
+    {
+      "regime_axis": "combined",
+      "regime": "DOWN_HIGH",
+      "model": "Ridge-Flat",
+      "rmse": 0.0321851798350498
+    },
+    {
+      "regime_axis": "combined",
+      "regime": "DOWN_LOW",
+      "model": "Ridge-Flat",
+      "rmse": 0.019741625394144695
+    },
+    {
+      "regime_axis": "combined",
+      "regime": "SIDEWAYS_HIGH",
+      "model": "Ridge-Flat",
+      "rmse": 0.020765505775749253
+    },
+    {
+      "regime_axis": "combined",
+      "regime": "SIDEWAYS_LOW",
+      "model": "Ridge-Flat",
+      "rmse": 0.01760448546424513
+    },
+    {
+      "regime_axis": "combined",
+      "regime": "UP_HIGH",
+      "model": "Chronos-2 LoRA",
+      "rmse": 0.02350324946674282
+    },
+    {
+      "regime_axis": "combined",
+      "regime": "UP_LOW",
+      "model": "Ridge-Flat",
+      "rmse": 0.020346862964726598
+    },
+    {
+      "regime_axis": "trend",
+      "regime": "DOWN",
+      "model": "Ridge-Flat",
+      "rmse": 0.027230677757681853
+    },
+    {
+      "regime_axis": "trend",
+      "regime": "SIDEWAYS",
+      "model": "Ridge-Flat",
+      "rmse": 0.01846119280683286
+    },
+    {
+      "regime_axis": "trend",
+      "regime": "UP",
+      "model": "Chronos-2 LoRA",
+      "rmse": 0.02190214716642235
+    },
+    {
+      "regime_axis": "volatility",
+      "regime": "HIGH",
+      "model": "Ridge-Flat",
+      "rmse": 0.027981597045956614
+    },
+    {
+      "regime_axis": "volatility",
+      "regime": "LOW",
+      "model": "Ridge-Flat",
+      "rmse": 0.01892020850920437
+    }
+  ],
+  "classification_highest_macro_f1": [
+    {
+      "regime_axis": "combined",
+      "regime": "DOWN_HIGH",
+      "model": "Cryptova-Raw",
+      "macro_f1": 0.43126882300469793
+    },
+    {
+      "regime_axis": "combined",
+      "regime": "DOWN_LOW",
+      "model": "TimesNet Classifier",
+      "macro_f1": 0.3540731604253035
+    },
+    {
+      "regime_axis": "combined",
+      "regime": "SIDEWAYS_HIGH",
+      "model": "Cryptova-Base",
+      "macro_f1": 0.3986165753812132
+    },
+    {
+      "regime_axis": "combined",
+      "regime": "SIDEWAYS_LOW",
+      "model": "TimesNet Classifier",
+      "macro_f1": 0.35375850271935866
+    },
+    {
+      "regime_axis": "combined",
+      "regime": "UP_HIGH",
+      "model": "Cryptova-Base",
+      "macro_f1": 0.3629857780552308
+    },
+    {
+      "regime_axis": "combined",
+      "regime": "UP_LOW",
+      "model": "TimesNet Classifier",
+      "macro_f1": 0.3518643789190113
+    },
+    {
+      "regime_axis": "trend",
+      "regime": "DOWN",
+      "model": "Cryptova-Raw",
+      "macro_f1": 0.40978773584473577
+    },
+    {
+      "regime_axis": "trend",
+      "regime": "SIDEWAYS",
+      "model": "TimesNet Classifier",
+      "macro_f1": 0.3671035698371237
+    },
+    {
+      "regime_axis": "trend",
+      "regime": "UP",
+      "model": "TimesNet Classifier",
+      "macro_f1": 0.3469717969373036
+    },
+    {
+      "regime_axis": "volatility",
+      "regime": "HIGH",
+      "model": "Cryptova-Base",
+      "macro_f1": 0.4088163930579836
+    },
+    {
+      "regime_axis": "volatility",
+      "regime": "LOW",
+      "model": "TimesNet Classifier",
+      "macro_f1": 0.35528118831013805
+    }
+  ],
+  "trading_highest_cumulative_return": [
+    {
+      "regime_axis": "combined",
+      "regime": "DOWN_HIGH",
+      "model": "Cryptova-Base",
+      "cumulative_return": 0.46598698054359367,
+      "trade_count": 56
+    },
+    {
+      "regime_axis": "combined",
+      "regime": "DOWN_LOW",
+      "model": "TimesFM 2.5 LoRA",
+      "cumulative_return": 0.2068844238611509,
+      "trade_count": 18
+    },
+    {
+      "regime_axis": "combined",
+      "regime": "SIDEWAYS_HIGH",
+      "model": "Cryptova-Base",
+      "cumulative_return": 0.09674941043570184,
+      "trade_count": 11
+    },
+    {
+      "regime_axis": "combined",
+      "regime": "SIDEWAYS_LOW",
+      "model": "TimesFM 2.5 LoRA",
+      "cumulative_return": 0.0722599853527568,
+      "trade_count": 12
+    },
+    {
+      "regime_axis": "combined",
+      "regime": "UP_HIGH",
+      "model": "Cryptova-Full",
+      "cumulative_return": 0.1259828606937563,
+      "trade_count": 18
+    },
+    {
+      "regime_axis": "combined",
+      "regime": "UP_LOW",
+      "model": "Chronos-2 LoRA",
+      "cumulative_return": 0.001731710300010736,
+      "trade_count": 7
+    },
+    {
+      "regime_axis": "trend",
+      "regime": "DOWN",
+      "model": "Cryptova-Base",
+      "cumulative_return": 0.35254557476826953,
+      "trade_count": 83
+    },
+    {
+      "regime_axis": "trend",
+      "regime": "SIDEWAYS",
+      "model": "TimesFM 2.5 LoRA",
+      "cumulative_return": 0.10877852896323836,
+      "trade_count": 24
+    },
+    {
+      "regime_axis": "trend",
+      "regime": "UP",
+      "model": "Cryptova-Full",
+      "cumulative_return": 0.07810301251008811,
+      "trade_count": 25
+    },
+    {
+      "regime_axis": "volatility",
+      "regime": "HIGH",
+      "model": "Cryptova-Base",
+      "cumulative_return": 0.5108701915330585,
+      "trade_count": 87
+    },
+    {
+      "regime_axis": "volatility",
+      "regime": "LOW",
+      "model": "TimesFM 2.5 LoRA",
+      "cumulative_return": 0.15022562122942418,
+      "trade_count": 37
+    }
+  ]
+}

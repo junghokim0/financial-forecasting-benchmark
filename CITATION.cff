@@ -1,0 +1,17 @@
+cff-version: 1.2.0
+message: "If you use this benchmark, please cite this repository."
+title: "Benchmarking Foundation Models and Specialized Models for Financial Forecasting"
+type: software
+authors:
+  - family-names: "Kim"
+    given-names: "Jungho"
+repository-code: "https://github.com/junghokim0/financial-forecasting-benchmark"
+date-released: 2026-08-31
+keywords:
+  - financial forecasting
+  - time-series foundation models
+  - Chronos
+  - TimesFM
+  - TimesNet
+  - Bitcoin
+  - Cryptova

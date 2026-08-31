@@ -1,0 +1,104 @@
+{
+  "schema_version": "1.0",
+  "evaluation_variant": "base_prediction",
+  "identity": {
+    "model": "ridge_flat_rmse_selected",
+    "model_version": "ridge_flat_svd_v1",
+    "rolling": "rolling_3",
+    "split": "test",
+    "seed": 42
+  },
+  "num_rows": 2065,
+  "cost": {
+    "fee": 0.001,
+    "slippage": 0.001,
+    "total_per_selected_trade": 0.002,
+    "interpretation": "identical_to_existing_cryptova_code"
+  },
+  "classification": {
+    "accuracy": 0.4116222760290557,
+    "macro_f1": 0.19439679817038305,
+    "prediction_distribution": {
+      "SHORT": {
+        "count": 0,
+        "ratio": 0.0
+      },
+      "HOLD": {
+        "count": 2065,
+        "ratio": 1.0
+      },
+      "LONG": {
+        "count": 0,
+        "ratio": 0.0
+      }
+    },
+    "confusion_matrix": [
+      [
+        0,
+        701,
+        0
+      ],
+      [
+        0,
+        850,
+        0
+      ],
+      [
+        0,
+        514,
+        0
+      ]
+    ],
+    "classification_report": {
+      "SHORT": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1-score": 0.0,
+        "support": 701.0
+      },
+      "HOLD": {
+        "precision": 0.4116222760290557,
+        "recall": 1.0,
+        "f1-score": 0.5831903945111492,
+        "support": 850.0
+      },
+      "LONG": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1-score": 0.0,
+        "support": 514.0
+      },
+      "accuracy": 0.4116222760290557,
+      "macro avg": {
+        "precision": 0.13720742534301858,
+        "recall": 0.3333333333333333,
+        "f1-score": 0.19439679817038305,
+        "support": 2065.0
+      },
+      "weighted avg": {
+        "precision": 0.16943289812334014,
+        "recall": 0.4116222760290557,
+        "f1-score": 0.24005415754696213,
+        "support": 2065.0
+      }
+    },
+    "balanced_accuracy": 0.3333333333333333,
+    "weighted_f1": 0.24005415754696213
+  },
+  "backtest": {
+    "cumulative_return": 0.0,
+    "sharpe_like": 0.0,
+    "max_drawdown": 0.0,
+    "trade_count": 0,
+    "trade_ratio": 0.0,
+    "win_rate": 0.0,
+    "avg_trade_return": 0.0
+  },
+  "regression": {
+    "mae": 0.020898489255033827,
+    "rmse": 0.028301270477793492,
+    "directional_accuracy": 0.44164648910411625,
+    "pearson_correlation": 0.016038322413305547,
+    "spearman_correlation": -0.0401530873701223
+  }
+}

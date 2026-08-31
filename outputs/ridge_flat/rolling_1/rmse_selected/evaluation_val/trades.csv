@@ -1,0 +1,2 @@
+﻿sample_time,target_time,pred,pred_label,raw_future_return,strategy_return
+2025-04-10 19:00:00+00:00,2025-04-11 19:00:00+00:00,2,LONG,0.0519322120939786,0.0499322120939786

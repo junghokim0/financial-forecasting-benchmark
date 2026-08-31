@@ -1,0 +1,19 @@
+{
+  "schema_version": "1.0",
+  "evaluation_variant": "connected_oos_regression",
+  "identity": {
+    "model": "timesnet_official_core_regressor_rmse_selected",
+    "model_version": "timesnet_official_core_direct_target_v1",
+    "rolling": "connected_oos",
+    "split": "test",
+    "seed": 42
+  },
+  "num_rows": 6291,
+  "regression": {
+    "mae": 0.017317096277416608,
+    "rmse": 0.023916014109305682,
+    "directional_accuracy": 0.4824352249244953,
+    "pearson_correlation": -0.022279723148067327,
+    "spearman_correlation": -0.03499664177794983
+  }
+}

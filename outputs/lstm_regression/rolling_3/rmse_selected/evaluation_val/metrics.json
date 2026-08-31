@@ -1,0 +1,19 @@
+{
+  "schema_version": "1.0",
+  "evaluation_variant": "regression_only",
+  "identity": {
+    "model": "lstm_many_to_one_rmse_selected",
+    "model_version": "lstm_many_to_one_v1",
+    "rolling": "rolling_3",
+    "split": "validation",
+    "seed": 42
+  },
+  "num_rows": 2113,
+  "regression": {
+    "mae": 0.018096144742468796,
+    "rmse": 0.024619204680429465,
+    "directional_accuracy": 0.48935163274964505,
+    "pearson_correlation": -0.04866205448501195,
+    "spearman_correlation": -0.03309884531618171
+  }
+}

@@ -209,6 +209,41 @@ tempCodeRunnerFile.py
 # PyPI configuration file
 .pypirc
 
+# -----------------------------------------------------------------------------
+# Financial benchmark publication safety rules
+# -----------------------------------------------------------------------------
+
+# Credentials and private configuration
+.env.*
+api_key.txt
+apikey pass.txt
+*.pem
+*.key
+*credentials*
+
+# The public repository contains metadata only, never the actual datasets.
+data/**
+!data/README.md
+!data/data_manifest.csv
+!data/checksums.sha256
+
+# Trained weights, adapters, checkpoints, and fitted preprocessing objects
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+*.bin
+*.pkl
+*.joblib
+*.npz
+outputs/**/trainer/
+outputs/**/adapter/
+outputs/**/checkpoint-*/
+
+# OS-generated files
+.DS_Store
+Thumbs.db
+
 # Marimo
 marimo/_static/
 marimo/_lsp/

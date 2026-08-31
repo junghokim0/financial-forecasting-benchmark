@@ -1,0 +1,177 @@
+project:
+  name: financial_foundation_model_benchmark
+  primary_goal: compare_models_under_cryptova_evaluation_protocol
+  timezone: UTC
+
+data:
+  canonical_master: data/master/merged_with_future_return.csv
+  cryptova_reference_dir: data/cryptova_reference
+  rolling_dataset_dir: data/dataset/rolling_threshold_0012
+  risk_data: data/risk/bybit_funding_rate_raw.csv
+  frequency: 1h
+  window_size: 72
+  prediction_horizon: 24
+  chart_feature_count: 12
+  news_feature_count: 9
+
+target:
+  source_column: raw_future_return
+  master_column: future_return_24h
+  definition: close_t_plus_24_div_close_t_minus_1
+  task: three_class_classification
+  short_threshold: -0.012
+  long_threshold: 0.012
+  boundary_rule:
+    short: return_lte_short_threshold
+    hold: short_threshold_lt_return_lt_long_threshold
+    long: return_gte_long_threshold
+  label_map:
+    SHORT: 0
+    HOLD: 1
+    LONG: 2
+
+rolling_splits:
+  strict_policy: input_start_time_input_end_time_sample_time_and_target_time_must_be_inside_split
+  rolling_1:
+    train: ["2024-01-01T00:00:00Z", "2025-04-01T00:00:00Z"]
+    validation: ["2025-04-01T00:00:00Z", "2025-07-01T00:00:00Z"]
+    test: ["2025-07-01T00:00:00Z", "2025-10-01T00:00:00Z"]
+  rolling_2:
+    train: ["2024-04-01T00:00:00Z", "2025-07-01T00:00:00Z"]
+    validation: ["2025-07-01T00:00:00Z", "2025-10-01T00:00:00Z"]
+    test: ["2025-10-01T00:00:00Z", "2026-01-01T00:00:00Z"]
+  rolling_3:
+    train: ["2024-07-01T00:00:00Z", "2025-10-01T00:00:00Z"]
+    validation: ["2025-10-01T00:00:00Z", "2026-01-01T00:00:00Z"]
+    test: ["2026-01-01T00:00:00Z", "2026-04-01T00:00:00Z"]
+
+preprocessing:
+  scaler: StandardScaler
+  fit_on: rolling_train_only
+  transform_with_train_scaler: [train, validation, test]
+  prohibit_refit_on: [validation, test]
+
+prediction_protocol:
+  schema_version: "1.0"
+  primary_signal: base_prediction
+  regression_to_class:
+    short: predicted_return_lte_minus_0_012
+    hold: minus_0_012_lt_predicted_return_lt_0_012
+    long: predicted_return_gte_0_012
+  confidence_filter:
+    enabled_in_primary_benchmark: false
+    report_as: secondary_experiment
+    tune_on: validation_only
+    low_confidence_action: HOLD
+  risk_filter:
+    enabled_in_primary_benchmark: false
+    report_as: separate_strategy_experiment
+
+backtest:
+  protocol: cryptova_compatible
+  position_map:
+    SHORT: -1
+    HOLD: 0
+    LONG: 1
+  non_overlap: true
+  cooldown_hours: 24
+  fee: 0.001
+  slippage: 0.001
+  cost_interpretation: preserve_existing_cryptova_implementation_until_parity_test
+  threshold_selection_split: validation
+  test_threshold_policy: freeze_validation_choice
+
+evaluation:
+  classification_metrics:
+    - accuracy
+    - balanced_accuracy
+    - macro_f1
+    - weighted_f1
+    - per_class_precision_recall_f1
+    - confusion_matrix
+  regression_metrics:
+    - mae
+    - rmse
+    - directional_accuracy
+    - pearson_correlation
+    - spearman_correlation
+  trading_metrics:
+    - cumulative_return
+    - average_trade_return
+    - win_rate
+    - sharpe_like
+    - maximum_drawdown
+    - trade_count
+    - trade_ratio
+  aggregation:
+    group_by: [model, rolling, split, seed]
+    summarize_across_rolling_and_seeds: [mean, standard_deviation]
+
+models:
+  - linear_regression
+  - lstm
+  - timesnet
+  - chronos2_lora_chart
+  - timesfm2_5_lora_close
+  - cryptova
+
+chronos2:
+  display_name: Chronos-2 LoRA Fine-tuned
+  checkpoint: amazon/chronos-2
+  revision: 95a9710e2596287d08352589f42634fa5abdf0a7
+  input_track: chart_only
+  target_series: close
+  past_covariates: chart_features_12
+  context_length: 72
+  prediction_length: 24
+  point_forecast: median_q_0_5_at_t_plus_24
+  finetune_mode: lora
+  full_finetuning: false
+  lora_config: official_default
+  learning_rate: 1.0e-5
+  num_steps: 1000
+  train_batch_size_interpretation: variates_not_samples
+  train_batch_size: 32
+  seed: 42
+  checkpoint_selection: validation_quantile_loss
+  execution_environment: google_colab_gpu
+  status: code_complete_training_not_run
+
+timesfm2_5:
+  display_name: TimesFM 2.5 LoRA Fine-tuned
+  checkpoint: google/timesfm-2.5-200m-transformers
+  revision: resolve_commit_sha_at_run_and_record
+  input_track: close_only
+  target_series: close
+  canonical_available_context: 72
+  model_context_length: 64
+  context_policy: latest_64_of_canonical_72_due_to_patch_length_32
+  prediction_length: 24
+  point_forecast: mean_predictions_at_t_plus_24
+  finetune_mode: lora
+  full_finetuning: false
+  lora_r: 4
+  lora_alpha: 8
+  lora_dropout: 0.05
+  lora_target_modules: all-linear
+  learning_rate: 1.0e-4
+  weight_decay: 0.01
+  maximum_epochs: 10
+  early_stopping_patience: 3
+  micro_batch_size: 16
+  gradient_accumulation: 2
+  effective_batch_size: 32
+  seed: 42
+  checkpoint_selection: validation_official_normalized_mse_plus_quantile_loss
+  execution_environment: google_colab_gpu
+  status: code_complete_training_not_run
+
+reproducibility:
+  required_metadata:
+    - model
+    - model_version
+    - rolling
+    - split
+    - seed
+    - schema_version
+  prohibit_test_set_model_selection: true

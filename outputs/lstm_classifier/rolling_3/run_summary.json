@@ -1,0 +1,53 @@
+{
+  "model": "lstm_many_to_one_classifier",
+  "model_version": "lstm_many_to_one_classifier_v1",
+  "rolling": "rolling_3",
+  "seed": 42,
+  "input_tensor_shape": [
+    72,
+    12
+  ],
+  "target": "label_id",
+  "label_definition": {
+    "0": "SHORT",
+    "1": "HOLD",
+    "2": "LONG"
+  },
+  "architecture": {
+    "input_size": 12,
+    "hidden_size": 32,
+    "num_layers": 1,
+    "output_dropout": 0.3,
+    "bidirectional": false
+  },
+  "num_classes": 3,
+  "training": {
+    "batch_size": 64,
+    "max_epochs": 50,
+    "patience": 8,
+    "learning_rate": 0.0001,
+    "weight_decay": 0.0001,
+    "gradient_clip": 1.0,
+    "label_smoothing": 0.03,
+    "seed": 42
+  },
+  "optimizer": "AdamW",
+  "loss": "CrossEntropyLoss",
+  "class_weights": null,
+  "selection_metric": "validation_macro_f1_max",
+  "selected_epoch": 16,
+  "validation_macro_f1": 0.2816231854870242,
+  "validation_cross_entropy": 1.0788382642990144,
+  "device": "cpu",
+  "trainable_parameters": 5987,
+  "epochs_completed": 24,
+  "training_seconds": 56.32131150003988,
+  "refit_on_train_plus_validation": false,
+  "input_scaling": "existing_rolling_train_fitted_chart_scaler; no additional refit",
+  "confidence_filter_applied": false,
+  "risk_filter_applied": false,
+  "val_prediction_csv": "outputs\\lstm_classifier\\rolling_3\\predictions_val.csv",
+  "val_metrics_json": "outputs\\lstm_classifier\\rolling_3\\evaluation_val\\metrics.json",
+  "test_prediction_csv": "outputs\\lstm_classifier\\rolling_3\\predictions_test.csv",
+  "test_metrics_json": "outputs\\lstm_classifier\\rolling_3\\evaluation_test\\metrics.json"
+}

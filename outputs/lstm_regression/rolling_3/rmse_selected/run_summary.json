@@ -1,0 +1,15 @@
+{
+  "model": "lstm_many_to_one_rmse_selected",
+  "model_version": "lstm_many_to_one_v1",
+  "rolling": "rolling_3",
+  "seed": 42,
+  "selection_metric": "validation_rmse_min",
+  "selection_value": 0.024619204680429465,
+  "selected_epoch": 30,
+  "refit_on_train_plus_validation": false,
+  "input_scaling": "existing_rolling_train_fitted_chart_scaler; no additional refit",
+  "val_prediction_csv": "outputs\\lstm_regression\\rolling_3\\rmse_selected\\predictions_val.csv",
+  "val_metrics_json": "outputs\\lstm_regression\\rolling_3\\rmse_selected\\evaluation_val\\metrics.json",
+  "test_prediction_csv": "outputs\\lstm_regression\\rolling_3\\rmse_selected\\predictions_test.csv",
+  "test_metrics_json": "outputs\\lstm_regression\\rolling_3\\rmse_selected\\evaluation_test\\metrics.json"
+}

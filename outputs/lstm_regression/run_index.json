@@ -1,0 +1,172 @@
+{
+  "model": "lstm_many_to_one",
+  "model_version": "lstm_many_to_one_v1",
+  "device": "cpu",
+  "rollings": [
+    {
+      "model": "lstm_many_to_one",
+      "model_version": "lstm_many_to_one_v1",
+      "rolling": "rolling_1",
+      "input_tensor_shape": [
+        72,
+        12
+      ],
+      "target": "raw_future_return",
+      "architecture": {
+        "input_size": 12,
+        "hidden_size": 32,
+        "num_layers": 1,
+        "output_dropout": 0.3,
+        "bidirectional": false
+      },
+      "training": {
+        "batch_size": 64,
+        "max_epochs": 50,
+        "patience": 8,
+        "learning_rate": 0.0001,
+        "weight_decay": 0.0001,
+        "gradient_clip": 1.0,
+        "seed": 42
+      },
+      "optimizer": "AdamW",
+      "loss": "MSELoss",
+      "device": "cpu",
+      "trainable_parameters": 5921,
+      "training_runs": {
+        "rmse_selected": {
+          "epochs_completed": 22,
+          "training_seconds": 30.463633500039577,
+          "early_stopping_metric": "validation_rmse_min"
+        }
+      },
+      "early_stopping_rule": "independent run per selection metric; patience applies only to that metric",
+      "variants": {
+        "rmse_selected": {
+          "model": "lstm_many_to_one_rmse_selected",
+          "model_version": "lstm_many_to_one_v1",
+          "rolling": "rolling_1",
+          "seed": 42,
+          "selection_metric": "validation_rmse_min",
+          "selection_value": 0.019519679949620207,
+          "selected_epoch": 14,
+          "refit_on_train_plus_validation": false,
+          "input_scaling": "existing_rolling_train_fitted_chart_scaler; no additional refit",
+          "val_prediction_csv": "outputs\\lstm_regression\\rolling_1\\rmse_selected\\predictions_val.csv",
+          "val_metrics_json": "outputs\\lstm_regression\\rolling_1\\rmse_selected\\evaluation_val\\metrics.json",
+          "test_prediction_csv": "outputs\\lstm_regression\\rolling_1\\rmse_selected\\predictions_test.csv",
+          "test_metrics_json": "outputs\\lstm_regression\\rolling_1\\rmse_selected\\evaluation_test\\metrics.json"
+        }
+      }
+    },
+    {
+      "model": "lstm_many_to_one",
+      "model_version": "lstm_many_to_one_v1",
+      "rolling": "rolling_2",
+      "input_tensor_shape": [
+        72,
+        12
+      ],
+      "target": "raw_future_return",
+      "architecture": {
+        "input_size": 12,
+        "hidden_size": 32,
+        "num_layers": 1,
+        "output_dropout": 0.3,
+        "bidirectional": false
+      },
+      "training": {
+        "batch_size": 64,
+        "max_epochs": 50,
+        "patience": 8,
+        "learning_rate": 0.0001,
+        "weight_decay": 0.0001,
+        "gradient_clip": 1.0,
+        "seed": 42
+      },
+      "optimizer": "AdamW",
+      "loss": "MSELoss",
+      "device": "cpu",
+      "trainable_parameters": 5921,
+      "training_runs": {
+        "rmse_selected": {
+          "epochs_completed": 32,
+          "training_seconds": 49.919432000024244,
+          "early_stopping_metric": "validation_rmse_min"
+        }
+      },
+      "early_stopping_rule": "independent run per selection metric; patience applies only to that metric",
+      "variants": {
+        "rmse_selected": {
+          "model": "lstm_many_to_one_rmse_selected",
+          "model_version": "lstm_many_to_one_v1",
+          "rolling": "rolling_2",
+          "seed": 42,
+          "selection_metric": "validation_rmse_min",
+          "selection_value": 0.015786014361431667,
+          "selected_epoch": 24,
+          "refit_on_train_plus_validation": false,
+          "input_scaling": "existing_rolling_train_fitted_chart_scaler; no additional refit",
+          "val_prediction_csv": "outputs\\lstm_regression\\rolling_2\\rmse_selected\\predictions_val.csv",
+          "val_metrics_json": "outputs\\lstm_regression\\rolling_2\\rmse_selected\\evaluation_val\\metrics.json",
+          "test_prediction_csv": "outputs\\lstm_regression\\rolling_2\\rmse_selected\\predictions_test.csv",
+          "test_metrics_json": "outputs\\lstm_regression\\rolling_2\\rmse_selected\\evaluation_test\\metrics.json"
+        }
+      }
+    },
+    {
+      "model": "lstm_many_to_one",
+      "model_version": "lstm_many_to_one_v1",
+      "rolling": "rolling_3",
+      "input_tensor_shape": [
+        72,
+        12
+      ],
+      "target": "raw_future_return",
+      "architecture": {
+        "input_size": 12,
+        "hidden_size": 32,
+        "num_layers": 1,
+        "output_dropout": 0.3,
+        "bidirectional": false
+      },
+      "training": {
+        "batch_size": 64,
+        "max_epochs": 50,
+        "patience": 8,
+        "learning_rate": 0.0001,
+        "weight_decay": 0.0001,
+        "gradient_clip": 1.0,
+        "seed": 42
+      },
+      "optimizer": "AdamW",
+      "loss": "MSELoss",
+      "device": "cpu",
+      "trainable_parameters": 5921,
+      "training_runs": {
+        "rmse_selected": {
+          "epochs_completed": 38,
+          "training_seconds": 76.26569440006278,
+          "early_stopping_metric": "validation_rmse_min"
+        }
+      },
+      "early_stopping_rule": "independent run per selection metric; patience applies only to that metric",
+      "variants": {
+        "rmse_selected": {
+          "model": "lstm_many_to_one_rmse_selected",
+          "model_version": "lstm_many_to_one_v1",
+          "rolling": "rolling_3",
+          "seed": 42,
+          "selection_metric": "validation_rmse_min",
+          "selection_value": 0.024619204680429465,
+          "selected_epoch": 30,
+          "refit_on_train_plus_validation": false,
+          "input_scaling": "existing_rolling_train_fitted_chart_scaler; no additional refit",
+          "val_prediction_csv": "outputs\\lstm_regression\\rolling_3\\rmse_selected\\predictions_val.csv",
+          "val_metrics_json": "outputs\\lstm_regression\\rolling_3\\rmse_selected\\evaluation_val\\metrics.json",
+          "test_prediction_csv": "outputs\\lstm_regression\\rolling_3\\rmse_selected\\predictions_test.csv",
+          "test_metrics_json": "outputs\\lstm_regression\\rolling_3\\rmse_selected\\evaluation_test\\metrics.json"
+        }
+      }
+    }
+  ]
+}

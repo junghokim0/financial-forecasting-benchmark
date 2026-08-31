@@ -1,0 +1,104 @@
+{
+  "schema_version": "1.0",
+  "evaluation_variant": "base_prediction",
+  "identity": {
+    "model": "timesfm2_5_lora_close",
+    "model_version": "timesfm2_5_lora_close_v1",
+    "rolling": "connected_oos",
+    "split": "test",
+    "seed": 42
+  },
+  "num_rows": 6291,
+  "cost": {
+    "fee": 0.001,
+    "slippage": 0.001,
+    "total_per_selected_trade": 0.002,
+    "interpretation": "identical_to_existing_cryptova_code"
+  },
+  "classification": {
+    "accuracy": 0.4946749324431728,
+    "macro_f1": 0.28701327910541824,
+    "prediction_distribution": {
+      "SHORT": {
+        "count": 339,
+        "ratio": 0.053886504530281355
+      },
+      "HOLD": {
+        "count": 5623,
+        "ratio": 0.8938165633444604
+      },
+      "LONG": {
+        "count": 329,
+        "ratio": 0.05229693212525831
+      }
+    },
+    "confusion_matrix": [
+      [
+        99,
+        1517,
+        109
+      ],
+      [
+        130,
+        2927,
+        134
+      ],
+      [
+        110,
+        1179,
+        86
+      ]
+    ],
+    "classification_report": {
+      "SHORT": {
+        "precision": 0.2920353982300885,
+        "recall": 0.057391304347826085,
+        "f1-score": 0.09593023255813952,
+        "support": 1725.0
+      },
+      "HOLD": {
+        "precision": 0.5205406366708163,
+        "recall": 0.9172673143215293,
+        "f1-score": 0.664170637621965,
+        "support": 3191.0
+      },
+      "LONG": {
+        "precision": 0.2613981762917933,
+        "recall": 0.06254545454545454,
+        "f1-score": 0.10093896713615022,
+        "support": 1375.0
+      },
+      "accuracy": 0.4946749324431728,
+      "macro avg": {
+        "precision": 0.3579914037308994,
+        "recall": 0.3457346910716033,
+        "f1-score": 0.28701327910541824,
+        "support": 6291.0
+      },
+      "weighted avg": {
+        "precision": 0.40124443267599647,
+        "recall": 0.4946749324431728,
+        "f1-score": 0.3852550048683337,
+        "support": 6291.0
+      }
+    },
+    "balanced_accuracy": 0.3457346910716033,
+    "weighted_f1": 0.3852550048683337
+  },
+  "backtest": {
+    "cumulative_return": -0.30963013178761556,
+    "sharpe_like": -1.3455575562970143,
+    "max_drawdown": -0.4121903712652977,
+    "trade_count": 104,
+    "trade_ratio": 0.016531553012239707,
+    "win_rate": 0.5,
+    "avg_trade_return": -0.0031600225396651058
+  },
+  "regression": {
+    "mae": 0.017803688331351517,
+    "rmse": 0.024991577234697318,
+    "directional_accuracy": 0.4983309489747258,
+    "pearson_correlation": -0.09731725147519861,
+    "spearman_correlation": -0.05008678422187407
+  }
+}

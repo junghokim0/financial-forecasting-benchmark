@@ -1,0 +1,97 @@
+{
+  "schema_version": "1.0",
+  "evaluation_variant": "base_prediction",
+  "identity": {
+    "model": "lstm_many_to_one_classifier",
+    "model_version": "lstm_many_to_one_classifier_v1",
+    "rolling": "rolling_2",
+    "split": "validation",
+    "seed": 42
+  },
+  "num_rows": 2113,
+  "cost": {
+    "fee": 0.001,
+    "slippage": 0.001,
+    "total_per_selected_trade": 0.002,
+    "interpretation": "identical_to_existing_cryptova_code"
+  },
+  "classification": {
+    "accuracy": 0.619971604353999,
+    "macro_f1": 0.28523706530684506,
+    "prediction_distribution": {
+      "SHORT": {
+        "count": 4,
+        "ratio": 0.001893043066729768
+      },
+      "HOLD": {
+        "count": 2003,
+        "ratio": 0.9479413156649313
+      },
+      "LONG": {
+        "count": 106,
+        "ratio": 0.050165641268338855
+      }
+    },
+    "confusion_matrix": [
+      [
+        2,
+        341,
+        27
+      ],
+      [
+        1,
+        1289,
+        60
+      ],
+      [
+        1,
+        373,
+        19
+      ]
+    ],
+    "classification_report": {
+      "SHORT": {
+        "precision": 0.5,
+        "recall": 0.005405405405405406,
+        "f1-score": 0.010695187165775402,
+        "support": 370.0
+      },
+      "HOLD": {
+        "precision": 0.6435346979530704,
+        "recall": 0.9548148148148148,
+        "f1-score": 0.7688637041455413,
+        "support": 1350.0
+      },
+      "LONG": {
+        "precision": 0.1792452830188679,
+        "recall": 0.04834605597964377,
+        "f1-score": 0.07615230460921844,
+        "support": 393.0
+      },
+      "accuracy": 0.619971604353999,
+      "macro avg": {
+        "precision": 0.4409266603239794,
+        "recall": 0.33618875873328796,
+        "f1-score": 0.28523706530684506,
+        "support": 2113.0
+      },
+      "weighted avg": {
+        "precision": 0.5320469656711123,
+        "recall": 0.619971604353999,
+        "f1-score": 0.5072650617885662,
+        "support": 2113.0
+      }
+    },
+    "balanced_accuracy": 0.33618875873328796,
+    "weighted_f1": 0.5072650617885662
+  },
+  "backtest": {
+    "cumulative_return": -0.11825151016629543,
+    "sharpe_like": -2.5619128218052403,
+    "max_drawdown": -0.14390101319709747,
+    "trade_count": 44,
+    "trade_ratio": 0.02082347373402745,
+    "win_rate": 0.4090909090909091,
+    "avg_trade_return": -0.0027541708254734047
+  }
+}

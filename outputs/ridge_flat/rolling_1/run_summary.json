@@ -1,0 +1,49 @@
+{
+  "model": "ridge_flat",
+  "model_version": "ridge_flat_svd_v1",
+  "rolling": "rolling_1",
+  "seed": 42,
+  "input_tensor_shape": [
+    72,
+    12
+  ],
+  "flattened_feature_count": 864,
+  "target": "raw_future_return",
+  "solver": "numpy_svd_closed_form_no_explicit_inverse",
+  "refit_on_train_plus_validation": false,
+  "input_scaling": "existing_rolling_train_fitted_chart_scaler; no additional refit",
+  "variants": {
+    "rmse_selected": {
+      "model": "ridge_flat_rmse_selected",
+      "model_version": "ridge_flat_svd_v1",
+      "rolling": "rolling_1",
+      "seed": 42,
+      "selection_metric": "validation_rmse_min",
+      "selection_value": 0.019635021676522313,
+      "selected_alpha": 10000.0,
+      "solver": "numpy_svd_closed_form_no_explicit_inverse",
+      "refit_on_train_plus_validation": false,
+      "input_scaling": "existing_rolling_train_fitted_chart_scaler; no additional refit",
+      "val_prediction_csv": "outputs\\ridge_flat\\rolling_1\\rmse_selected\\predictions_val.csv",
+      "val_metrics_json": "outputs\\ridge_flat\\rolling_1\\rmse_selected\\evaluation_val\\metrics.json",
+      "test_prediction_csv": "outputs\\ridge_flat\\rolling_1\\rmse_selected\\predictions_test.csv",
+      "test_metrics_json": "outputs\\ridge_flat\\rolling_1\\rmse_selected\\evaluation_test\\metrics.json"
+    },
+    "macro_f1_selected": {
+      "model": "ridge_flat_macro_f1_selected",
+      "model_version": "ridge_flat_svd_v1",
+      "rolling": "rolling_1",
+      "seed": 42,
+      "selection_metric": "validation_macro_f1_max",
+      "selection_value": 0.32206725456182433,
+      "selected_alpha": 0.001,
+      "solver": "numpy_svd_closed_form_no_explicit_inverse",
+      "refit_on_train_plus_validation": false,
+      "input_scaling": "existing_rolling_train_fitted_chart_scaler; no additional refit",
+      "val_prediction_csv": "outputs\\ridge_flat\\rolling_1\\macro_f1_selected\\predictions_val.csv",
+      "val_metrics_json": "outputs\\ridge_flat\\rolling_1\\macro_f1_selected\\evaluation_val\\metrics.json",
+      "test_prediction_csv": "outputs\\ridge_flat\\rolling_1\\macro_f1_selected\\predictions_test.csv",
+      "test_metrics_json": "outputs\\ridge_flat\\rolling_1\\macro_f1_selected\\evaluation_test\\metrics.json"
+    }
+  }
+}

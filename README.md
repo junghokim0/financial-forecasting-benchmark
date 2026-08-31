@@ -20,7 +20,17 @@ This repository compares traditional, specialized, and pretrained time-series mo
 - Trading evaluation: 24-hour non-overlapping positions
 - Cost per selected trade: 0.1% fee + 0.1% slippage
 
-The full frozen protocol, metric definitions, model settings, and limitations are recorded in [`result/fair_comparison_protocol_and_results.md`](result/fair_comparison_protocol_and_results.md).
+### Rolling Train/Validation/Test periods
+
+All timestamps are UTC. Each period is written as `start (inclusive) → end (exclusive)`.
+
+| Rolling | Train | Validation | Test |
+|---|---|---|---|
+| 1 | 2024-01-01 00:00 to 2025-04-01 00:00 | 2025-04-01 00:00 to 2025-07-01 00:00 | 2025-07-01 00:00 to 2025-10-01 00:00 |
+| 2 | 2024-04-01 00:00 to 2025-07-01 00:00 | 2025-07-01 00:00 to 2025-10-01 00:00 | 2025-10-01 00:00 to 2026-01-01 00:00 |
+| 3 | 2024-07-01 00:00 to 2025-10-01 00:00 | 2025-10-01 00:00 to 2026-01-01 00:00 | 2026-01-01 00:00 to 2026-04-01 00:00 |
+
+For the complete frozen protocol—including split construction, leakage-prevention rules, model-selection criteria, backtest assumptions, metric definitions, model settings, and limitations—see [`result/fair_comparison_protocol_and_results.md`](result/fair_comparison_protocol_and_results.md).
 
 ## Models
 

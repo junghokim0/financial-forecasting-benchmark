@@ -3,7 +3,7 @@
 ## 문서 정보
 
 - 문서 목적: 모든 비교 모델에 적용할 공통 실험 조건을 고정하고, 모델별 설정과 결과를 같은 형식으로 누적하여 최종 연구 결론을 도출한다.
-- Protocol version: `1.18`
+- Protocol version: `1.19`
 - 최초 고정일: `2026-08-27`
 - 공통 예측 설정: 원칙적으로 각 모델은 관측 시점 기준 과거 72시간의 정보를 바탕으로 미래 24시간 수익률 또는 SHORT/HOLD/LONG 신호를 예측한다. 단, TimesFM 2.5는 모델의 32-step patch 제약으로 공통 72시간 범위 내 최근 64시간을 입력받아 미래 24시간을 예측한다.
 - 주 연구 질문: **Cryptova는 기존 시계열 모델 및 foundation model과 비교하여 경쟁력이 있는가?**
@@ -338,7 +338,15 @@ RMSE·MAE, correlation, Directional Accuracy 및 Classification을 함께 해석
 
 ## 4. 모델별 설정 및 결과
 
-모든 모델은 아래 형식을 동일하게 사용한다.
+설정과 선택 정보는 모델 구조에 맞게 기록하되, 결과표의 평가항목은 Track별로 고정한다.
+
+- Regression: `RMSE / MAE / Pearson / Spearman / Directional Accuracy`
+- Classification: `Macro F1 / Balanced Accuracy / SHORT·HOLD·LONG Recall`
+- Backtest: `Return / Sharpe-like / MDD / Trades / Trade Ratio / Win Rate / Avg Trade Return`
+
+각 결과표는 `rolling_1`, `rolling_2`, `rolling_3`, `Connected OOS` 순서로 표시한다. Return,
+MDD, Trade Ratio, Win Rate 및 Avg Trade Return의 단위는 모두 `%`로 통일한다. 해당 Track에
+참여하지 않는 모델에는 그 결과표를 만들지 않는다.
 
 ### 4.1 Ridge-Flat
 
@@ -358,35 +366,44 @@ RMSE·MAE, correlation, Directional Accuracy 및 Classification을 함께 해석
 | Macro F1 동점 처리 | Validation RMSE가 낮은 alpha |
 | 추가 scaling | 없음; 기존 rolling train-fitted Chart scaler 사용 |
 
-#### Regression 결과 — RMSE-selected(수익률을 얼마나 잘 맞췄는가)
+#### 선택 결과
 
-| Rolling | 선택 alpha | Test RMSE | Test Macro F1 | 거래 수 |
-|---|---:|---:|---:|---:|
-| rolling_1 | 10,000 | 0.015569 | 0.259890 | 0 |
-| rolling_2 | 10,000,000,000 | 0.023963 | 0.212844 | 0 |
-| rolling_3 | 10,000,000,000 | 0.028301 | 0.194397 | 0 |
+| Rolling | RMSE-selected alpha | Macro-F1-selected alpha |
+|---|---:|---:|
+| rolling_1 | 10,000 | 0.001 |
+| rolling_2 | 10,000,000,000 | 0.1 |
+| rolling_3 | 10,000,000,000 | 0.0001 |
 
-RMSE-selected는 강한 규제를 선택하여 예측 수익률이 평균 근처로 축소됐고 세 Test 구간 모두 HOLD만 예측했다. 이는 수익률 숫자 오차를 줄이는 목적과 거래 신호 구분 목적이 동일하지 않음을 보여준다.
+#### Regression 결과 — RMSE-selected
 
-#### Classification 및 Backtest 결과 — Macro-F1-selected(신호를 얼마나 잘 구분했는가)
-
-| Rolling | 선택 alpha | Test Macro F1 | Test RMSE | 누적수익률 | 거래 수 |
+| Rolling | RMSE | MAE | Pearson | Spearman | Directional Accuracy |
 |---|---:|---:|---:|---:|---:|
-| rolling_1 | 0.001 | 0.297379 | 0.016537 | -0.007684 | 17 |
-| rolling_2 | 0.1 | 0.245693 | 0.025633 | -0.086828 | 32 |
-| rolling_3 | 0.0001 | 0.283922 | 0.029549 | +0.103506 | 37 |
+| rolling_1 | 0.015569 | 0.011610 | -0.0197 | -0.0095 | 48.89% |
+| rolling_2 | 0.023963 | 0.017448 | -0.0047 | 0.0447 | 47.42% |
+| rolling_3 | 0.028301 | 0.020898 | 0.0160 | -0.0402 | 44.16% |
+| Connected OOS | 0.023178 | 0.016620 | -0.0471 | -0.0454 | 46.84% |
 
-#### 연결 Out-of-Sample Backtest
+#### Classification 결과 — Macro-F1-selected
 
-| 지표 | 결과 |
-|---|---:|
-| 기간 | 2025-07 ~ 2026-03 |
-| 누적수익률 | -0.005% |
-| Sharpe-like | 0.125 |
-| MDD | -14.42% |
-| 거래 수 | 86 |
-| 승률 | 50.0% |
-| 평균 거래수익률 | +0.026% |
+| Rolling | Macro F1 | Balanced Accuracy | SHORT Recall | HOLD Recall | LONG Recall |
+|---|---:|---:|---:|---:|---:|
+| rolling_1 | 0.297379 | 0.344500 | 0.0622 | 0.9637 | 0.0076 |
+| rolling_2 | 0.245693 | 0.326325 | 0.0138 | 0.9011 | 0.0641 |
+| rolling_3 | 0.283922 | 0.346227 | 0.0385 | 0.8212 | 0.1790 |
+| Connected OOS | 0.284691 | 0.343804 | 0.0342 | 0.9063 | 0.0909 |
+
+#### Backtest 결과 — Macro-F1-selected
+
+| Rolling | Return | Sharpe-like | MDD | Trades | Trade Ratio | Win Rate | Avg Trade Return |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| rolling_1 | -0.77% | -0.204 | -3.29% | 17 | 0.80% | 52.94% | -0.035% |
+| rolling_2 | -8.68% | -1.367 | -11.50% | 32 | 1.51% | 46.88% | -0.260% |
+| rolling_3 | +10.35% | +1.406 | -8.43% | 37 | 1.79% | 51.35% | +0.302% |
+| Connected OOS | -0.005% | +0.125 | -14.42% | 86 | 1.37% | 50.00% | +0.026% |
+
+RMSE-selected는 강한 규제를 선택하여 예측 수익률이 평균 근처로 축소됐고 세 Test 구간 모두
+HOLD만 예측했다. 이는 수익률 숫자 오차를 줄이는 목적과 거래 신호 구분 목적이 동일하지 않음을
+보여준다.
 
 #### 해석
 
@@ -419,19 +436,22 @@ Ridge-Flat은 항상 HOLD인 기준선보다 Macro F1이 소폭 높았지만 SHO
 | Checkpoint 선택 | Validation RMSE 최소 |
 | 공식 역할 | Regression Track 전용 |
 
-#### Regression 결과 — RMSE-selected
+#### 선택 결과
 
-| Rolling | Seed | Best epoch | LSTM Test RMSE |
-|---|---:|---:|---:|
-| rolling_1 | 42 | 14 | 0.016097 |
-| rolling_2 | 42 | 24 | 0.025003 |
-| rolling_3 | 42 | 30 | 0.028625 |
+| Rolling | Seed | Best epoch |
+|---|---:|---:|
+| rolling_1 | 42 | 14 |
+| rolling_2 | 42 | 24 |
+| rolling_3 | 42 | 30 |
 
-#### 연결 Out-of-Sample Regression 결과
+#### Regression 결과
 
-| Test rows | RMSE | MAE | Pearson | Spearman | Directional Accuracy |
-|---:|---:|---:|---:|---:|---:|
-| 6,291 | 0.023790 | 0.017203 | -0.0041 | -0.0478 | 46.97% |
+| Rolling | RMSE | MAE | Pearson | Spearman | Directional Accuracy |
+|---|---:|---:|---:|---:|---:|
+| rolling_1 | 0.016097 | 0.012147 | -0.0549 | -0.0641 | 46.19% |
+| rolling_2 | 0.025003 | 0.018334 | -0.0281 | -0.0277 | 47.80% |
+| rolling_3 | 0.028625 | 0.021219 | 0.0493 | -0.0249 | 46.92% |
+| Connected OOS | 0.023790 | 0.017203 | -0.0041 | -0.0478 | 46.97% |
 
 #### 해석
 
@@ -459,23 +479,31 @@ LSTM Regression은 세 rolling 모두 zero-return baseline과 Ridge보다 높은
 | Checkpoint 선택 | Validation Macro F1 최대; 동점 시 Validation Cross-Entropy 최소 |
 | Confidence/risk filter | 사용하지 않음 |
 
-#### Rolling별 Test 결과
+#### 선택 결과
 
-| Rolling | Best epoch | Test Macro F1 | Balanced Accuracy | Return | Sharpe-like | MDD | Trades |
+| Rolling | Seed | Best epoch |
+|---|---:|---:|
+| rolling_1 | 42 | 35 |
+| rolling_2 | 42 | 1 |
+| rolling_3 | 42 | 16 |
+
+#### Classification 결과
+
+| Rolling | Macro F1 | Balanced Accuracy | SHORT Recall | HOLD Recall | LONG Recall |
+|---|---:|---:|---:|---:|---:|
+| rolling_1 | 0.325391 | 0.351624 | 0.2108 | 0.8237 | 0.0204 |
+| rolling_2 | 0.258837 | 0.335706 | 0.0061 | 0.8920 | 0.1090 |
+| rolling_3 | 0.325513 | 0.397635 | 0.0185 | 0.8553 | 0.3191 |
+| Connected OOS | 0.318197 | 0.356864 | 0.0551 | 0.8533 | 0.1622 |
+
+#### Backtest 결과
+
+| Rolling | Return | Sharpe-like | MDD | Trades | Trade Ratio | Win Rate | Avg Trade Return |
 |---|---:|---:|---:|---:|---:|---:|---:|
-| rolling_1 | 35 | 0.325391 | 0.351624 | -0.144594 | -3.139 | -0.150669 | 45 |
-| rolling_2 | 1 | 0.258837 | 0.335706 | -0.314331 | -3.835 | -0.339820 | 54 |
-| rolling_3 | 16 | 0.325513 | 0.397635 | +0.028584 | +0.500 | -0.197746 | 39 |
-
-#### 연결 Out-of-Sample 결과
-
-| Test rows | Accuracy | Balanced Accuracy | Macro F1 | SHORT Recall | HOLD Recall | LONG Recall |
-|---:|---:|---:|---:|---:|---:|---:|
-| 6,291 | 0.483389 | 0.356864 | 0.318197 | 0.0551 | 0.8533 | 0.1622 |
-
-| Return | Sharpe-like | MDD | Trades | Trade Ratio | Win Rate | Avg Trade Return |
-|---:|---:|---:|---:|---:|---:|---:|
-| -39.67% | -1.890 | -51.54% | 138 | 2.19% | 42.03% | -0.335% |
+| rolling_1 | -14.46% | -3.139 | -15.07% | 45 | 2.13% | 40.00% | -0.336% |
+| rolling_2 | -31.43% | -3.835 | -33.98% | 54 | 2.56% | 40.74% | -0.664% |
+| rolling_3 | +2.86% | +0.500 | -19.77% | 39 | 1.89% | 46.15% | +0.121% |
+| Connected OOS | -39.67% | -1.890 | -51.54% | 138 | 2.19% | 42.03% | -0.335% |
 
 #### 해석
 
@@ -505,13 +533,22 @@ LSTM Classifier는 Ridge threshold 결과보다 세 rolling 모두 높은 Macro 
 | Regression 선택 | Validation RMSE 최소 checkpoint |
 | 공식 역할 | Regression Track 전용 |
 
-#### 결과
+#### 선택 결과
 
-| Rolling | Seed | Best epoch | Test RMSE | Test MAE |
-|---|---:|---:|---:|---:|
-| rolling_1 | 42 | 12 | 0.016193 | 0.012278 |
-| rolling_2 | 42 | 23 | 0.025021 | 0.018312 |
-| rolling_3 | 42 | 10 | 0.028873 | 0.021455 |
+| Rolling | Seed | Best epoch |
+|---|---:|---:|
+| rolling_1 | 42 | 12 |
+| rolling_2 | 42 | 23 |
+| rolling_3 | 42 | 10 |
+
+#### Regression 결과
+
+| Rolling | RMSE | MAE | Pearson | Spearman | Directional Accuracy |
+|---|---:|---:|---:|---:|---:|
+| rolling_1 | 0.016193 | 0.012278 | -0.0670 | -0.0640 | 46.85% |
+| rolling_2 | 0.025021 | 0.018312 | -0.0466 | -0.0080 | 47.99% |
+| rolling_3 | 0.028873 | 0.021455 | 0.0221 | -0.0076 | 49.93% |
+| Connected OOS | 0.023916 | 0.017317 | -0.0223 | -0.0350 | 48.24% |
 
 #### 해석
 
@@ -532,15 +569,38 @@ LSTM Classifier는 Ridge threshold 결과보다 세 rolling 모두 높은 Macro 
 | Checkpoint 선택 | Validation Macro F1 최대 |
 | 공식 역할 | Classification Track |
 
-#### 결과
+#### 선택 결과
 
-| Rolling | Best epoch | Test Macro F1 | Balanced Accuracy | Return | Sharpe-like | MDD | Trades |
+| Rolling | Seed | Best epoch |
+|---|---:|---:|
+| rolling_1 | 42 | 8 |
+| rolling_2 | 42 | 41 |
+| rolling_3 | 42 | 7 |
+
+#### Classification 결과
+
+| Rolling | Macro F1 | Balanced Accuracy | SHORT Recall | HOLD Recall | LONG Recall |
+|---|---:|---:|---:|---:|---:|
+| rolling_1 | 0.300942 | 0.321828 | 0.2270 | 0.7156 | 0.0229 |
+| rolling_2 | 0.380404 | 0.380921 | 0.3349 | 0.4874 | 0.3205 |
+| rolling_3 | 0.335989 | 0.374361 | 0.0785 | 0.6341 | 0.4105 |
+| Connected OOS | 0.364654 | 0.366543 | 0.2075 | 0.6230 | 0.2691 |
+
+#### Backtest 결과
+
+| Rolling | Return | Sharpe-like | MDD | Trades | Trade Ratio | Win Rate | Avg Trade Return |
 |---|---:|---:|---:|---:|---:|---:|---:|
-| rolling_1 | 8 | 0.300942 | 0.321828 | -14.46% | -2.364 | -15.63% | 56 |
-| rolling_2 | 41 | 0.380404 | 0.380921 | +1.08% | +0.324 | -14.69% | 72 |
-| rolling_3 | 7 | 0.335989 | 0.374361 | -3.10% | -0.099 | -22.93% | 59 |
+| rolling_1 | -14.46% | -2.364 | -15.63% | 56 | 2.65% | 44.64% | -0.264% |
+| rolling_2 | +1.08% | +0.324 | -14.69% | 72 | 3.41% | 52.78% | +0.048% |
+| rolling_3 | -3.10% | -0.099 | -22.93% | 59 | 2.86% | 45.76% | -0.017% |
+| Connected OOS | -16.21% | -0.449 | -23.75% | 187 | 2.97% | 48.13% | -0.066% |
 
-연결 OOS 6,291개에서 Macro F1 `0.364654`, Balanced Accuracy `0.366543`을 기록해 현재까지 Ridge와 LSTM보다 가장 높은 분류 성능을 보였다. SHORT/HOLD/LONG recall은 `0.2075 / 0.6230 / 0.2691`로 HOLD 편향도 완화됐다. 그러나 비용 반영 연결수익률은 `-16.21%`였으며, 평균 거래수익률은 비용 차감 후 `-0.066%`로 분류 개선이 순수익으로 이어지지는 않았다.
+#### 해석
+
+연결 OOS 6,291개에서 Chart-only 모델 중 가장 높은 Macro F1 `0.364654`를 기록했다.
+SHORT/HOLD/LONG recall은 `0.2075 / 0.6230 / 0.2691`로 HOLD 편향도 완화됐다. 그러나 비용
+반영 연결수익률은 `-16.21%`였으며, 평균 거래수익률은 비용 차감 후 `-0.066%`로 분류 개선이
+순수익으로 이어지지는 않았다.
 
 ### 4.6 Chronos-2 LoRA Fine-tuned
 
@@ -567,13 +627,32 @@ LSTM Classifier는 Ridge threshold 결과보다 세 rolling 모두 높은 Macro 
 | Trainable / Total parameter | `1,206,912 / 120,684,576` |
 | 저장 모델 | Rolling별 `finetuned-ckpt/adapter_model.safetensors` |
 
-#### 결과
+#### Regression 결과
 
-| Rolling | Model version | Test RMSE | Test Macro F1 | Return | Sharpe-like | MDD | Trades |
-|---|---|---:|---:|---:|---:|---:|---:|
-| rolling_1 | `amazon_chronos2_lora_qforecast_v1` | 0.015879 | 0.259189 | -0.66% | -0.349 | -2.61% | 6 |
-| rolling_2 | `amazon_chronos2_lora_qforecast_v1` | 0.024393 | 0.267978 | -8.70% | -1.504 | -18.20% | 28 |
-| rolling_3 | `amazon_chronos2_lora_qforecast_v1` | 0.030530 | 0.213475 | -16.90% | -1.913 | -17.03% | 25 |
+| Rolling | RMSE | MAE | Pearson | Spearman | Directional Accuracy |
+|---|---:|---:|---:|---:|---:|
+| rolling_1 | 0.015879 | 0.011844 | -0.0228 | -0.0063 | 49.31% |
+| rolling_2 | 0.024393 | 0.017752 | 0.0455 | 0.0478 | 52.30% |
+| rolling_3 | 0.030530 | 0.021958 | -0.2415 | -0.1191 | 45.57% |
+| Connected OOS | 0.024300 | 0.017148 | -0.1095 | -0.0305 | 49.09% |
+
+#### Classification 결과
+
+| Rolling | Macro F1 | Balanced Accuracy | SHORT Recall | HOLD Recall | LONG Recall |
+|---|---:|---:|---:|---:|---:|
+| rolling_1 | 0.259189 | 0.328308 | 0.0027 | 0.9822 | 0.0000 |
+| rolling_2 | 0.267978 | 0.349631 | 0.0398 | 0.9536 | 0.0556 |
+| rolling_3 | 0.213475 | 0.334220 | 0.0157 | 0.9753 | 0.0117 |
+| Connected OOS | 0.252000 | 0.338928 | 0.0220 | 0.9715 | 0.0233 |
+
+#### Backtest 결과
+
+| Rolling | Return | Sharpe-like | MDD | Trades | Trade Ratio | Win Rate | Avg Trade Return |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| rolling_1 | -0.66% | -0.349 | -2.61% | 6 | 0.28% | 33.33% | -0.100% |
+| rolling_2 | -8.70% | -1.504 | -18.20% | 28 | 1.33% | 39.29% | -0.302% |
+| rolling_3 | -16.90% | -1.913 | -17.03% | 25 | 1.21% | 32.00% | -0.674% |
+| Connected OOS | -24.64% | -1.406 | -24.75% | 59 | 0.94% | 35.59% | -0.439% |
 
 #### 해석
 
@@ -617,13 +696,32 @@ MDD는 `-24.75%`였다. Rolling 2에서만 방향 정확도 `52.30%`와 양의 P
 | Best epoch | Rolling 1/2/3 모두 1 |
 | 저장 모델 | Rolling별 `adapter/adapter_model.safetensors` |
 
-#### 결과
+#### Regression 결과
 
-| Rolling | Model version | Test RMSE | Test Macro F1 | Return | Sharpe-like | MDD | Trades |
-|---|---|---:|---:|---:|---:|---:|---:|
-| rolling_1 | `timesfm2_5_lora_close_v1` | 0.016446 | 0.278344 | +1.04% | +0.400 | -5.27% | 14 |
-| rolling_2 | `timesfm2_5_lora_close_v1` | 0.025565 | 0.293757 | -4.17% | -0.313 | -20.27% | 46 |
-| rolling_3 | `timesfm2_5_lora_close_v1` | 0.030939 | 0.260042 | -28.70% | -2.944 | -29.39% | 44 |
+| Rolling | RMSE | MAE | Pearson | Spearman | Directional Accuracy |
+|---|---:|---:|---:|---:|---:|
+| rolling_1 | 0.016446 | 0.012338 | -0.0603 | -0.0409 | 49.93% |
+| rolling_2 | 0.025565 | 0.018592 | -0.0220 | 0.0411 | 52.82% |
+| rolling_3 | 0.030939 | 0.022590 | -0.1825 | -0.1658 | 46.68% |
+| Connected OOS | 0.024992 | 0.017804 | -0.0973 | -0.0501 | 49.83% |
+
+#### Classification 결과
+
+| Rolling | Macro F1 | Balanced Accuracy | SHORT Recall | HOLD Recall | LONG Recall |
+|---|---:|---:|---:|---:|---:|
+| rolling_1 | 0.278344 | 0.335734 | 0.0135 | 0.9733 | 0.0204 |
+| rolling_2 | 0.293757 | 0.342989 | 0.0887 | 0.8527 | 0.0876 |
+| rolling_3 | 0.260042 | 0.342290 | 0.0514 | 0.9035 | 0.0720 |
+| Connected OOS | 0.287013 | 0.345735 | 0.0574 | 0.9173 | 0.0625 |
+
+#### Backtest 결과
+
+| Rolling | Return | Sharpe-like | MDD | Trades | Trade Ratio | Win Rate | Avg Trade Return |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| rolling_1 | +1.04% | +0.400 | -5.27% | 14 | 0.66% | 50.00% | +0.088% |
+| rolling_2 | -4.17% | -0.313 | -20.27% | 46 | 2.18% | 58.70% | -0.059% |
+| rolling_3 | -28.70% | -2.944 | -29.39% | 44 | 2.13% | 40.91% | -0.714% |
+| Connected OOS | -30.96% | -1.346 | -41.22% | 104 | 1.65% | 50.00% | -0.316% |
 
 #### 해석
 
@@ -676,19 +774,39 @@ Pearson `-0.1825`, 수익률 `-28.70%`가 Connected OOS 악화의 주요 원인�
 | 최종 prediction | 기존 `pred_filtered` |
 | 재평가 방식 | 기존 prediction 재사용; 재학습·재추론 없음 |
 
-#### 결과
+#### 선택 결과
 
-| Rolling | Seed | Best epoch | Test Accuracy | Test Macro F1 | Return | Sharpe-like | MDD | Trades |
-|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| rolling_1 | 42 | 1 | 0.639375 | 0.261728 | -0.13% | -0.107 | -1.53% | 2 |
-| rolling_2 | 42 | 1 | 0.409844 | 0.294403 | -18.04% | -1.919 | -24.40% | 61 |
-| rolling_3 | 42 | 42 | 0.382567 | 0.349761 | +55.72% | +4.321 | -9.36% | 56 |
+| Rolling | Seed | Best epoch |
+|---|---:|---:|
+| rolling_1 | 42 | 1 |
+| rolling_2 | 42 | 1 |
+| rolling_3 | 42 | 42 |
+
+#### Classification 결과
+
+| Rolling | Macro F1 | Balanced Accuracy | SHORT Recall | HOLD Recall | LONG Recall |
+|---|---:|---:|---:|---:|---:|
+| rolling_1 | 0.261728 | 0.334182 | 0.0000 | 1.0000 | 0.0025 |
+| rolling_2 | 0.294403 | 0.347294 | 0.0199 | 0.7164 | 0.3056 |
+| rolling_3 | 0.349761 | 0.353066 | 0.3324 | 0.5459 | 0.1809 |
+| Connected OOS | 0.350898 | 0.368649 | 0.1426 | 0.7910 | 0.1724 |
+
+#### Backtest 결과
+
+| Rolling | Return | Sharpe-like | MDD | Trades | Trade Ratio | Win Rate | Avg Trade Return |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| rolling_1 | -0.13% | -0.107 | -1.53% | 2 | 0.09% | 50.00% | -0.055% |
+| rolling_2 | -18.04% | -1.919 | -24.40% | 61 | 2.89% | 49.18% | -0.296% |
+| rolling_3 | +55.72% | +4.321 | -9.36% | 56 | 2.71% | 62.50% | +0.833% |
+| Connected OOS | +27.46% | +1.143 | -24.40% | 119 | 1.89% | 55.46% | +0.240% |
 
 #### 해석
 
 기존 Risk Filter `result.json`의 Rolling별 Backtest 결과와 공통 evaluator 재평가가 일치했다. Connected OOS에서는 Macro F1 `0.350898`, 수익률 `+27.46%`, Sharpe-like `+1.143`, MDD `-24.40%`를 기록했다. 다만 전체 양의 수익은 rolling 3의 `+55.72%`에 크게 의존하며 rolling 2에서는 `-18.04%` 손실이 발생했다. 따라서 수익성은 확인됐지만 rolling 간 안정성은 추가 regime 분석에서 검증해야 한다.
 
 ### 4.9 Cryptova-Base — Ablation
+
+#### 설정
 
 | 항목 | 내용 |
 |---|---|
@@ -699,11 +817,25 @@ Pearson `-0.1825`, 수익률 `-28.70%`가 Connected OOS 악화의 주요 원인�
 | 주 비교 포함 여부 | 제외; Risk Filter ablation으로 사용 |
 | 재평가 방식 | 기존 prediction 재사용; 재학습·재추론 없음 |
 
-| Rolling | Accuracy | Balanced Accuracy | Macro F1 | Return | Sharpe-like | MDD | Trades |
+#### Classification 결과
+
+| Rolling | Macro F1 | Balanced Accuracy | SHORT Recall | HOLD Recall | LONG Recall |
+|---|---:|---:|---:|---:|---:|
+| rolling_1 | 0.278670 | 0.338434 | 0.0000 | 0.9822 | 0.0331 |
+| rolling_2 | 0.294778 | 0.350358 | 0.0199 | 0.6145 | 0.4167 |
+| rolling_3 | 0.390477 | 0.391279 | 0.3324 | 0.4271 | 0.4144 |
+| Connected OOS | 0.376506 | 0.389647 | 0.1426 | 0.7202 | 0.3062 |
+
+#### Backtest 결과
+
+| Rolling | Return | Sharpe-like | MDD | Trades | Trade Ratio | Win Rate | Avg Trade Return |
 |---|---:|---:|---:|---:|---:|---:|---:|
-| rolling_1 | 0.633696 | 0.338434 | 0.278670 | -2.73% | -0.595 | -6.61% | 20 |
-| rolling_2 | 0.386654 | 0.350358 | 0.294778 | -28.24% | -3.213 | -31.15% | 68 |
-| rolling_3 | 0.391768 | 0.391279 | 0.390477 | +53.88% | +3.695 | -11.40% | 70 |
+| rolling_1 | -2.73% | -0.595 | -6.61% | 20 | 0.95% | 45.00% | -0.121% |
+| rolling_2 | -28.24% | -3.213 | -31.15% | 68 | 3.22% | 39.71% | -0.459% |
+| rolling_3 | +53.88% | +3.695 | -11.40% | 70 | 3.39% | 57.14% | +0.662% |
+| Connected OOS | +7.42% | +0.446 | -37.38% | 158 | 2.51% | 48.10% | +0.080% |
+
+#### 해석
 
 Connected OOS Macro F1은 `0.376506`, Balanced Accuracy는 `0.389647`였으며 비용 반영
 수익률은 `+7.42%`, MDD는 `-37.38%`였다.
@@ -711,6 +843,8 @@ Full Risk Filter는 Base보다 분류 성능과 LONG recall을 낮추는 대신 
 MDD를 개선했다. 따라서 Full 개선은 분류 정확도보다 거래 선택 및 위험 관리 효과다.
 
 ### 4.10 Cryptova-Raw — Argmax Ablation
+
+#### 설정
 
 | 항목 | 내용 |
 |---|---|
@@ -720,11 +854,25 @@ MDD를 개선했다. 따라서 Full 개선은 분류 정확도보다 거래 선�
 | Risk filter | 적용하지 않음 |
 | 재평가 방식 | 기존 prediction 재사용; 재학습·재추론 없음 |
 
-| Rolling | Accuracy | Balanced Accuracy | Macro F1 | Return | Sharpe-like | MDD | Trades |
+#### Classification 결과
+
+| Rolling | Macro F1 | Balanced Accuracy | SHORT Recall | HOLD Recall | LONG Recall |
+|---|---:|---:|---:|---:|---:|
+| rolling_1 | 0.309426 | 0.350653 | 0.0000 | 0.9400 | 0.1120 |
+| rolling_2 | 0.293626 | 0.347500 | 0.0229 | 0.5943 | 0.4252 |
+| rolling_3 | 0.382108 | 0.390435 | 0.3652 | 0.3353 | 0.4708 |
+| Connected OOS | 0.381875 | 0.393802 | 0.1571 | 0.6716 | 0.3527 |
+
+#### Backtest 결과
+
+| Rolling | Return | Sharpe-like | MDD | Trades | Trade Ratio | Win Rate | Avg Trade Return |
 |---|---:|---:|---:|---:|---:|---:|---:|
-| rolling_1 | 0.621391 | 0.350653 | 0.309426 | -9.95% | -1.949 | -12.70% | 38 |
-| rolling_2 | 0.380028 | 0.347500 | 0.293626 | -24.90% | -2.649 | -33.41% | 68 |
-| rolling_3 | 0.379177 | 0.390435 | 0.382108 | +21.10% | +1.980 | -12.44% | 72 |
+| rolling_1 | -9.95% | -1.949 | -12.70% | 38 | 1.80% | 44.74% | -0.261% |
+| rolling_2 | -24.90% | -2.649 | -33.41% | 68 | 3.22% | 42.65% | -0.390% |
+| rolling_3 | +21.10% | +1.980 | -12.44% | 72 | 3.49% | 55.56% | +0.301% |
+| Connected OOS | -18.11% | -0.545 | -36.74% | 178 | 2.83% | 48.31% | -0.083% |
+
+#### 해석
 
 Connected OOS Macro F1은 `0.381875`, Balanced Accuracy는 `0.393802`로 현재 완료 모델 중
 가장 높았다. 그러나 Backtest는 수익률 `-18.11%`, Sharpe-like `-0.545`였다. Raw는
@@ -796,7 +944,7 @@ Ridge-Flat의 Regression 지표는 각 rolling에서 **Validation RMSE로 선택
 
 TimesNet 두 task는 CPU에서 동시에 실행했으므로 위 elapsed time은 CPU 자원 경합의 영향을 받는다. 모델 파라미터 수는 직접 비교할 수 있지만, LSTM과의 순수 학습속도 비교에는 동일한 단독 실행 환경에서 별도 측정이 필요하다.
 
-### 5.5 현재까지의 비교 분석
+### 5.5 완료된 모델 비교 분석
 
 | 관점 | 현재 우세 모델 | 해석 |
 |---|---|---|

@@ -51,7 +51,7 @@ RMSE / MAE / Pearson / Spearman / Directional Accuracy
 |---|---|---|---|---|
 | Ridge Regression | Chart `(72,12)` flatten | `predicted_return` | Ridge 회귀 | 참여 |
 | LSTM Regression | Chart `(72,12)` | `predicted_return` | MSE 회귀학습 | 참여 |
-| TimesNet Regression | Chart `(72,12)` | `predicted_return` | 회귀학습 | 참여 예정 |
+| TimesNet Regression | Chart `(72,12)` | `predicted_return` | 회귀학습 | 참여 |
 | Chronos-2 LoRA Fine-tuned | BTC close + Chart 12 covariates | forecast/return | 사전학습 모델 LoRA 적응 | 완료 |
 | TimesFM 2.5 LoRA Fine-tuned | BTC close, 최근 64시간 | forecast/return | 사전학습 모델 LoRA 적응 | 완료 |
 | LSTM Classifier | Chart `(72,12)` | 3-class logits | 직접 Classification | 제외 |
@@ -80,7 +80,7 @@ class logits/probability → argmax → SHORT/HOLD/LONG ──┘
 |---|---|---|---|
 | Ridge Regression | `predicted_return` → 고정 threshold | `raw_future_return` | 참여 |
 | LSTM Classifier | 3-class logits → argmax | `label_id` | 참여 |
-| TimesNet Classifier | 3-class logits → argmax | `label_id` | 참여 예정 |
+| TimesNet Classifier | 3-class logits → argmax | `label_id` | 참여 |
 | Chronos-2 LoRA Fine-tuned | forecast → return → 고정 threshold | Validation quantile loss 기반 LoRA | 완료 |
 | TimesFM 2.5 LoRA Fine-tuned | forecast → return → 고정 threshold | Validation 공식 loss 기반 LoRA | 완료 |
 | Cryptova-Full | class probability → confidence/risk filter | `label_id` | 주 비교 참여 |

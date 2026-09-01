@@ -385,6 +385,26 @@ q10, q20, q30, q40, q50, q60, q70, q80, q90
 별도 Point Forecast 채널인 `mean_predictions`의 24번째 값이다. 인덱스 `23`은 0부터
 시작하므로 t+24를 의미한다.
 
+#### q10·q90을 저장한 이유와 향후 Risk Filter
+
+현재 Benchmark의 Regression 평가, 신호 생성 및 Backtest에는 `t+24`의 Point Forecast만
+사용한다. `q10`과 `q90`은 현재 성과 계산에 사용하지 않았으며, TimesFM의 확률적 예측 정보를
+보존해 향후 불확실성 분석과 Risk Filter 실험에 사용할 수 있도록 함께 저장했다.
+
+```text
+Point Forecast → 대표 수익률 예측과 기본 LONG/HOLD/SHORT 신호
+q10·q90       → 예측 범위와 하방·상방 위험 정보
+```
+
+예를 들어 `q90_return - q10_return`이 크면 모델이 미래 범위를 넓게 예상한 것이므로 거래를
+`HOLD`로 바꾸는 filter를 검토할 수 있다. LONG 후보에서는 낮은 시나리오인 `q10_return`도
+양수이거나 거래비용을 넘는지, SHORT 후보에서는 높은 시나리오인 `q90_return`도 음수인지
+확인하는 보수적인 규칙도 가능하다.
+
+다만 이는 **현재 결과에 적용한 규칙이 아니라 향후 별도 실험 후보**다. 먼저 실제 t+24
+수익률이 `q10~q90` 안에 들어오는 비율을 측정해 예측 구간의 calibration을 확인해야 한다.
+Filter 기준은 Rolling Validation에서만 정하고, Rolling Test에는 변경 없이 적용해야 한다.
+
 ### 4.12 최종 수익률과 신호
 
 24시간 후 예측 close를 현재 close와 비교해 예측 수익률을 계산한다.

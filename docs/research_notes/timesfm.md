@@ -368,16 +368,22 @@ TimesFM 2.5는 point forecast와 다음 9개 quantile을 제공한다.
 q10, q20, q30, q40, q50, q60, q70, q80, q90
 ```
 
+**Point Forecast**는 미래값을 범위로 제시하는 대신, 미래 시점마다 모델이 하나의 대표
+숫자로 출력하는 중심 예측이다. 예를 들어 t+24 Point Forecast가 `103,000`이면 모델이
+대표적으로 예측한 24시간 뒤 close가 `103,000`이라는 뜻이다. 이는 9개 quantile 가운데
+하나를 선택한 값이 아니라 별도의 Point Forecast 출력이다.
+
 현재 코드에서는 다음 값을 저장한다.
 
 | 저장값 | 코드상 출력 |
 |---|---|
-| 중심 예측 | `mean_predictions[:, 23]` |
+| 중심 예측(Point Forecast) | `mean_predictions[:, 23]` |
 | 하단 예측 | `full_predictions[:, 23, q10_index]` |
 | 상단 예측 | `full_predictions[:, 23, q90_index]` |
 
 코드 변수명은 `median_close`지만 실제 중심 예측으로 사용하는 값은 `q50`이 아니라
-`mean_predictions`의 24번째 point forecast다.
+별도 Point Forecast 채널인 `mean_predictions`의 24번째 값이다. 인덱스 `23`은 0부터
+시작하므로 t+24를 의미한다.
 
 ### 4.12 최종 수익률과 신호
 

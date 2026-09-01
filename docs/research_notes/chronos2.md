@@ -411,12 +411,36 @@ q50 = 101,000 → 중앙값 Point Forecast
 q90 = 107,000 → 높은 가격 시나리오
 ```
 
-우리 코드는 전체 quantile 중 `q10`, `q50`, `q90`을 저장한다.
+우리 코드는 전체 quantile 중 `q10`, `q50`, `q90`을 요청한다. Output Head는 16시간
+단위 patch 두 개로 최대 32시간을 출력하고, pipeline은 요청한 미래 24시간만 반환한다.
+이후 우리 코드는 마지막 `t+24` 값만 수익률로 변환해 저장한다.
 
 ```text
-전체 내부 출력: [Target 1, Future 24, Quantile 21]
-저장한 출력:    [Target 1, Future 24, Quantile 3]
+Output Head 내부:     [Target 1, Future 32, Quantile 21]
+24시간으로 자른 결과: [Target 1, Future 24, Quantile 21]
+요청한 Quantile 결과: [Target 1, Future 24, Quantile 3]
+표본별 최종 저장값:   t+24의 q10·q50·q90 수익률 3개
 ```
+
+#### q10·q90을 저장한 이유와 향후 Risk Filter
+
+현재 Benchmark의 Regression 평가, 신호 생성 및 Backtest에는 `t+24`의 `q50`만 사용한다.
+`q10`과 `q90`은 현재 성과를 계산하는 데 사용하지 않았으며, Chronos-2의 확률적 예측 정보를
+보존해 향후 불확실성 분석과 Risk Filter 실험에 사용할 수 있도록 함께 저장했다.
+
+```text
+q50 → 대표 수익률 예측과 기본 LONG/HOLD/SHORT 신호
+q10·q90 → 예측 범위와 하방·상방 위험 정보
+```
+
+예를 들어 `q90_return - q10_return`이 크면 모델이 미래 범위를 넓게 예상한 것이므로 거래를
+`HOLD`로 바꾸는 filter를 검토할 수 있다. LONG 후보에서는 낮은 시나리오인 `q10_return`도
+양수이거나 거래비용을 넘는지, SHORT 후보에서는 높은 시나리오인 `q90_return`도 음수인지
+확인하는 보수적인 규칙도 가능하다.
+
+다만 이는 **현재 결과에 적용한 규칙이 아니라 향후 별도 실험 후보**다. 먼저 실제 t+24
+수익률이 `q10~q90` 안에 들어오는 비율을 측정해 예측 구간의 calibration을 확인해야 한다.
+Filter 기준은 Rolling Validation에서만 정하고, Rolling Test에는 변경 없이 적용해야 한다.
 
 ## 5. 실험 가정과 공정성
 

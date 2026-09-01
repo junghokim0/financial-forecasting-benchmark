@@ -362,28 +362,31 @@ Transformer hidden [1280]
         └─ Continuous quantile projection
 ```
 
-TimesFM 2.5는 point forecast와 다음 9개 quantile을 제공한다.
+TimesFM 2.5의 `full_predictions`는 추가 mean 채널과 다음 9개 quantile을 제공한다.
 
 ```text
-q10, q20, q30, q40, q50, q60, q70, q80, q90
+채널 0: mean
+채널 1~9: q10, q20, q30, q40, q50, q60, q70, q80, q90
 ```
 
 **Point Forecast**는 미래값을 범위로 제시하는 대신, 미래 시점마다 모델이 하나의 대표
 숫자로 출력하는 중심 예측이다. 예를 들어 t+24 Point Forecast가 `103,000`이면 모델이
-대표적으로 예측한 24시간 뒤 close가 `103,000`이라는 뜻이다. 이는 9개 quantile 가운데
-하나를 선택한 값이 아니라 별도의 Point Forecast 출력이다.
+대표적으로 예측한 24시간 뒤 close가 `103,000`이라는 뜻이다. 이 값은 9개 quantile을
+평균해서 만들지 않는다. 현재 checkpoint의 공식 설정 `decode_index=5`가 q50 채널을
+Point Forecast로 선택한다.
 
 현재 코드에서는 다음 값을 저장한다.
 
 | 저장값 | 코드상 출력 |
 |---|---|
-| 중심 예측(Point Forecast) | `mean_predictions[:, 23]` |
+| 중심 예측(Point Forecast) | `mean_predictions[:, 23]`; q50 선택 결과 |
 | 하단 예측 | `full_predictions[:, 23, q10_index]` |
 | 상단 예측 | `full_predictions[:, 23, q90_index]` |
 
-코드 변수명은 `median_close`지만 실제 중심 예측으로 사용하는 값은 `q50`이 아니라
-별도 Point Forecast 채널인 `mean_predictions`의 24번째 값이다. 인덱스 `23`은 0부터
-시작하므로 t+24를 의미한다.
+공식 API의 필드명은 `mean_predictions`이지만, 현재 설정에서는 q50을 Point Forecast로
+반환한다. 따라서 코드 변수명 `median_close`는 실제 의미와 일치한다. 인덱스 `23`은 0부터
+시작하므로 t+24를 의미한다. 즉 우리 실험의 중심 예측은 t+24의 q50이며, Quantile들의
+산술평균이 아니다.
 
 #### q10·q90을 저장한 이유와 향후 Risk Filter
 
@@ -392,7 +395,7 @@ q10, q20, q30, q40, q50, q60, q70, q80, q90
 보존해 향후 불확실성 분석과 Risk Filter 실험에 사용할 수 있도록 함께 저장했다.
 
 ```text
-Point Forecast → 대표 수익률 예측과 기본 LONG/HOLD/SHORT 신호
+Point Forecast(q50) → 대표 수익률 예측과 기본 LONG/HOLD/SHORT 신호
 q10·q90       → 예측 범위와 하방·상방 위험 정보
 ```
 

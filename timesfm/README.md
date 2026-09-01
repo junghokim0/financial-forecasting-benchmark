@@ -10,7 +10,7 @@
 - 공통 가용 window: 과거 72시간
 - 실제 TimesFM 입력: 가장 최근 64시간
 - horizon: 미래 close 24개
-- point forecast: `mean_predictions`의 24번째 close
+- point forecast: 공식 `decode_index=5`로 선택된 q50인 `mean_predictions`의 24번째 close
 - regression: `predicted_close(t+24) / close(t) - 1`
 - classification: 예측 수익률을 공통 `±0.012` threshold로 변환
 - checkpoint: 각 Rolling의 Validation loss만 사용해 선택

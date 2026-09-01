@@ -696,7 +696,7 @@ MDD는 `-24.75%`였다. Rolling 2에서만 방향 정확도 `52.30%`와 양의 P
 | Batch | micro 16 × accumulation 2 = effective 32 |
 | Optimizer | AdamW, `lr=1e-4`, `weight_decay=0.01` |
 | Checkpoint 선택 | Rolling Validation 공식 normalized MSE + quantile loss |
-| Output 변환 | `mean_predictions`의 t+24 close → 24시간 예측 수익률 |
+| Output 변환 | 공식 `decode_index=5`로 선택된 q50인 `mean_predictions`의 t+24 close → 24시간 예측 수익률 |
 | Classification 변환 | 고정 ±1.2% threshold |
 | 실행 환경 | Google Colab, NVIDIA A100-SXM4-40GB |
 | Seed | 42 |

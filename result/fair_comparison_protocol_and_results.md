@@ -1,4 +1,4 @@
-# Financial Forecasting Benchmark 공정 비교 기준 및 결과 원장
+# Financial Forecasting Benchmark 공정 비교 기준 및 결과 
 
 ## 문서 정보
 

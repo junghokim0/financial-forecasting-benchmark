@@ -46,7 +46,7 @@ Linear Regression은 입력 변수의 선형결합으로 연속형 target을 예
 - 입력 변수 사이의 공선성이 강하면 OLS 계수가 불안정해질 수 있다.
 - 복잡한 모델이 단순한 선형 신호보다 실제로 나은지 확인하기 위한 baseline으로 적합하다.
 
-이 benchmark에서 Linear Regression의 목적은 금융 데이터가 모든 고전적 회귀 가정을 만족한다고 주장하는 것이 아니다. 동일한 데이터에서 LSTM, TimesNet, foundation model 및 Cryptova가 단순한 선형 예측 관계를 얼마나 넘어서는지 측정하는 기준선으로 사용한다.
+해당 benchmark에서 Linear Regression의 목적은 금융 데이터가 모든 고전적 회귀 가정을 만족한다고 주장하는 것이 아니다. 동일한 데이터에서 LSTM, TimesNet, foundation model 및 Cryptova가 단순한 선형 예측 관계를 얼마나 넘어서는지 측정하는 기준선으로 사용한다.
 
 ## 3. 문제 제기: 일반적인 Linear Regression을 바로 사용할 수 없는 이유
 

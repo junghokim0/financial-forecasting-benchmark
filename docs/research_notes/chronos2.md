@@ -7,7 +7,7 @@ model이다. 연속적인 시계열을 patch로 나누고, Time Self-Attention�
 Self-Attention을 적용한 Encoder-only Transformer를 통해 미래 여러 시점의 quantile을
 직접 예측한다.
 
-이 benchmark는 공식 `amazon/chronos-2` checkpoint를 사용하여 과거 72시간의 Raw BTC
+해당 benchmark는 공식 `amazon/chronos-2` checkpoint를 사용하여 과거 72시간의 Raw BTC
 Close와 Chart Feature 12개로 미래 24시간의 Close 경로를 예측한다. `q=0.5` 중앙값의
 마지막 시점으로 미래 24시간 수익률을 계산하고, 같은 수익률 threshold를 적용하여
 `SHORT/HOLD/LONG`으로 변환한다.
@@ -21,7 +21,7 @@ Raw BTC Close 72시간
 → SHORT / HOLD / LONG
 ```
 
-이 실험은 Full fine-tuning이 아니다. 결과와 보고서의 모델명은 반드시 다음과 같이
+해당 실험은 Full fine-tuning이 아니다. 결과와 보고서의 모델명은 반드시 다음과 같이
 표기한다.
 
 > **Chronos-2 LoRA Fine-tuned**
@@ -34,7 +34,7 @@ Raw BTC Close 72시간
 - Group Attention으로 같은 group에 속한 target과 covariate 사이 관계를 학습한다.
 - 단변량, 다변량, past covariate 및 known future covariate forecasting을 지원한다.
 - 하나의 미래값만 출력하지 않고 각 미래 시점의 21개 quantile을 직접 출력한다.
-- 대규모 시계열 사전학습 표현을 사용하며, 이 실험에서는 LoRA로 BTC 데이터에 적응한다.
+- 대규모 시계열 사전학습 표현을 사용하며, 해당 실험에서는 LoRA로 BTC 데이터에 적응한다.
 - 미래 가격분포 예측에 최적화된 모델이므로 SHORT/HOLD/LONG 분류나 투자수익을 직접
   최적화하는 모델은 아니다.
 
@@ -55,7 +55,7 @@ Ridge, LSTM 및 TimesNet은 현재 benchmark의 Rolling Train 데이터에서 �
 5. 범용 foundation model이 Chart+News 특화 모델인 Cryptova와 경쟁할 수 있는가?
 
 Foundation model은 외부 대규모 데이터로 사전학습됐기 때문에 LSTM·TimesNet·Cryptova와
-parameter 수나 사전학습 데이터가 동일하지 않다. 이 연구는 동일 parameter budget
+parameter 수나 사전학습 데이터가 동일하지 않다. 해당 연구는 동일 parameter budget
 비교가 아니라 동일한 BTC timestamp, target, rolling split 및 evaluator에서 각 모델의
 **end-to-end 경쟁력**을 비교한다.
 
@@ -474,7 +474,7 @@ predicted_return = predicted_close_q50(t+24) / close(t) - 1
 ### 5.3 Foundation Model 비교의 의미
 
 Chronos-2는 외부 데이터로 사전학습됐으므로 로컬 데이터에서 처음부터 학습한 모델과
-pretraining data 또는 parameter budget이 동일하지 않다. 이 비교는 foundation model을
+pretraining data 또는 parameter budget이 동일하지 않다. 해당 비교는 foundation model을
 실제로 사용할 때의 사전학습 이점을 포함한 end-to-end 비교다.
 
 동일하게 맞춘 조건은 다음과 같다.
@@ -726,7 +726,7 @@ Chronos-2의 주 목적은 수익률 및 가격 forecasting이며, 분류는 회
 
 ## 10. 보고서 핵심 문장
 
-> 이 연구는 범용 시계열 사전학습 표현이 제한된 BTC 데이터에서 전통 모델과 도메인 특화
+> 해당 연구는 범용 시계열 사전학습 표현이 제한된 BTC 데이터에서 전통 모델과 도메인 특화
 > Cryptova보다 높은 예측력을 제공하는지 검증하기 위해 Amazon의 120M parameter
 > Chronos-2를 LoRA로 fine-tuning하였다.
 
@@ -738,7 +738,7 @@ Chronos-2의 주 목적은 수익률 및 가격 forecasting이며, 분류는 회
 > autoregressive하게 생성하는 것과 달리, Chronos-2는 연속값 patch와 Encoder-only
 > Transformer를 사용하여 미래 여러 시점의 quantile을 직접 예측한다.
 
-> 이 실험은 Raw BTC Close를 target으로, 기존 Chart Feature 12개를 past covariate로
+> 해당 실험은 Raw BTC Close를 target으로, 기존 Chart Feature 12개를 past covariate로
 > 사용했으며, 과거 72시간으로 미래 Close 24시간을 예측한 뒤 t+24 q50 중앙값을 미래
 > 수익률로 변환하였다.
 

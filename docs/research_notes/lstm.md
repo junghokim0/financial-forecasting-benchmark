@@ -4,7 +4,7 @@
 
 LSTM(Long Short-Term Memory)은 시계열을 한 시점씩 순서대로 처리하면서 hidden state와 cell state에 과거 정보를 전달하는 순환신경망이다. 입력·망각·출력 gate를 이용해 일반 RNN의 장기 의존성 및 gradient 소실 문제를 완화한다.
 
-이 실험은 과거 72시간의 Chart Feature 12개를 입력받아 미래 24시간 수익률 하나를 출력하는 **단방향 Many-to-One LSTM Regression**이다.
+해당 실험은 과거 72시간의 Chart Feature 12개를 입력받아 미래 24시간 수익률 하나를 출력하는 **단방향 Many-to-One LSTM Regression**이다.
 
 ```text
 x(t-71) → x(t-70) → ... → x(t-1) → x(t)

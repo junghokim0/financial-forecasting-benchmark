@@ -159,7 +159,7 @@ Class weight를 즉시 추가하면 Cryptova와 학습 조건이 달라지므로
 
 ## 9. 보고서 핵심 문장
 
-> 본 연구는 Cryptova와의 직접 신호 비교를 위해 과거 72시간의 12개 Chart Feature를 입력받고 미래 24시간의 SHORT/HOLD/LONG을 Cross-Entropy로 직접 학습하는 단방향 Many-to-One LSTM Classifier를 구성하였다.
+> Cryptova와의 직접 신호 비교를 위해 과거 72시간의 12개 Chart Feature를 입력받고 미래 24시간의 SHORT/HOLD/LONG을 Cross-Entropy로 직접 학습하는 단방향 Many-to-One LSTM Classifier를 구성하였다.
 
 > LSTM Classifier는 연결된 6,291개 out-of-sample 표본에서 Macro F1 0.3182와 Balanced Accuracy 0.3569를 기록하였다.
 

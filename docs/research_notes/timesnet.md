@@ -2,7 +2,7 @@
 
 ## 1. 정의와 실험 목적
 
-TimesNet은 FFT로 시계열의 주요 주기를 찾고, 각 주기에 따라 1차원 시계열을 2차원으로 재배열한 뒤 Inception CNN으로 주기 내부와 주기 사이 변화를 학습하는 모델이다. 본 실험에서는 TimesNet의 주기 모델링이 Ridge의 선형 결합과 LSTM의 순차 상태 모델링보다 추가적인 성능을 제공하는지 확인한다.
+TimesNet은 FFT로 시계열의 주요 주기를 찾고, 각 주기에 따라 1차원 시계열을 2차원으로 재배열한 뒤 Inception CNN으로 주기 내부와 주기 사이 변화를 학습하는 모델이다. 이 실험에서는 TimesNet의 주기 모델링이 Ridge의 선형 결합과 LSTM의 순차 상태 모델링보다 추가적인 성능을 제공하는지 확인한다.
 
 주 benchmark에는 Cryptova 내부의 수정된 TimesNet이 아니라 THUML 공식 구조를 기준으로 만든 독립 Chart 모델을 사용한다. 이를 통해 `TimesNet vs Cryptova`와 `Cryptova Chart-only vs Chart+News` 질문을 분리한다.
 

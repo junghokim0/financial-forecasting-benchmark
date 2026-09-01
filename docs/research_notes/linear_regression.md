@@ -46,7 +46,7 @@ Linear Regression은 입력 변수의 선형결합으로 연속형 target을 예
 - 입력 변수 사이의 공선성이 강하면 OLS 계수가 불안정해질 수 있다.
 - 복잡한 모델이 단순한 선형 신호보다 실제로 나은지 확인하기 위한 baseline으로 적합하다.
 
-본 benchmark에서 Linear Regression의 목적은 금융 데이터가 모든 고전적 회귀 가정을 만족한다고 주장하는 것이 아니다. 동일한 데이터에서 LSTM, TimesNet, foundation model 및 Cryptova가 단순한 선형 예측 관계를 얼마나 넘어서는지 측정하는 기준선으로 사용한다.
+이 benchmark에서 Linear Regression의 목적은 금융 데이터가 모든 고전적 회귀 가정을 만족한다고 주장하는 것이 아니다. 동일한 데이터에서 LSTM, TimesNet, foundation model 및 Cryptova가 단순한 선형 예측 관계를 얼마나 넘어서는지 측정하는 기준선으로 사용한다.
 
 ## 3. 문제 제기: 일반적인 Linear Regression을 바로 사용할 수 없는 이유
 
@@ -161,7 +161,7 @@ Flatten된 입력에서도 시간 위치는 사라지지 않는다. `log_return(
 
 ### 4.4 최종 선택
 
-본 benchmark의 주 선형 baseline은 **Ridge-Flat**으로 결정한다.
+주 선형 baseline은 **Ridge-Flat**으로 결정한다.
 
 1. Cryptova, LSTM 및 TimesNet과 동일하게 과거 72시간 전체의 Chart 정보를 제공한다.
 2. 사람이 정한 요약 과정에서 발생할 수 있는 정보 손실을 피한다.
@@ -265,7 +265,7 @@ RMSE 기준은 강한 규제를 선택하여 예측 수익률을 평균 근처�
 
 Macro F1 기준은 더 약한 규제를 선택해 SHORT와 LONG 신호를 생성했다. 그러나 test 누적수익률은 rolling별로 음수와 양수가 혼재해 안정적인 수익 모델이라고 결론 내릴 수 없다. 이는 아직 단일 seed의 Ridge baseline 결과이며, Cryptova 및 다른 모델과의 공통 비교와 rolling 간 변동성 분석이 남아 있다.
 
-두 결과의 차이는 수익률 숫자의 평균오차를 최소화하는 목적과 세 class를 균형 있게 구분하는 목적이 동일하지 않다는 것을 보여준다. 본 연구의 Cryptova 주 비교에는 `Macro-F1-selected`를 사용하고, `RMSE-selected`는 순수 forecasting 성능의 보조 결과로 보고한다.
+두 결과의 차이는 수익률 숫자의 평균오차를 최소화하는 목적과 세 class를 균형 있게 구분하는 목적이 동일하지 않다는 것을 보여준다. Cryptova 주 비교에는 `Macro-F1-selected`를 사용하고, `RMSE-selected`는 순수 forecasting 성능의 보조 결과로 보고한다.
 
 ### 6.3 결과에 대한 쉬운 해석
 
@@ -392,9 +392,9 @@ Ridge-Flat은 성공적인 거래모델은 아니지만, 단순한 선형관계�
 
 ## 7. 보고서용 핵심 문장
 
-> 본 연구에서 Linear Regression은 복잡한 딥러닝 및 foundation model이 단순한 선형 예측 관계를 넘어서는 성능을 제공하는지 검증하기 위한 기준선으로 사용한다.
+> Linear Regression은 복잡한 딥러닝 및 foundation model이 단순한 선형 예측 관계를 넘어서는 성능을 제공하는지 검증하기 위한 기준선으로 사용한다.
 
-> 원래 Chart 입력은 과거 72시간과 12개 feature로 구성된 3차원 tensor이므로 일반적인 선형회귀에 직접 입력할 수 없다. 마지막 시점만 선택하면 시간 정보가 손실되고, 통계적 요약을 적용하면 입력 경로가 축약된다. 이에 본 연구는 72×12 window를 864차원으로 flatten하여 전체 정보 범위를 유지한다.
+> 원래 Chart 입력은 과거 72시간과 12개 feature로 구성된 3차원 tensor이므로 일반적인 선형회귀에 직접 입력할 수 없다. 마지막 시점만 선택하면 시간 정보가 손실되고, 통계적 요약을 적용하면 입력 경로가 축약된다. 이에 따라 72×12 window를 864차원으로 flatten하여 전체 정보 범위를 유지한다.
 
 > Flatten된 입력에는 동일 feature의 시차 변수 및 중첩된 rolling feature로 인해 강한 공선성이 발생할 수 있다. 이를 완화하기 위해 L2 regularization을 적용한 Ridge Regression을 사용하고, 규제 강도는 각 rolling의 validation 구간에서만 선택한다.
 

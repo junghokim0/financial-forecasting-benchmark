@@ -16,7 +16,7 @@
 
 ## 1. 비교의 범위와 해석
 
-본 연구의 주 비교는 각 모델을 실제 사용 방식으로 구성한 뒤 동일한 시점, target 및 evaluator에서 평가하는 **end-to-end system comparison**이다.
+주 비교는 각 모델을 실제 사용 방식으로 구성한 뒤 동일한 시점, target 및 evaluator에서 평가하는 **end-to-end system comparison**이다.
 
 ```text
 Regression Task
@@ -234,7 +234,7 @@ Cryptova의 주 비교 결과에는 실제 최종 시스템인 confidence filter
 
 ### 2.6 평가지표 용어 사전
 
-이 절은 결과표의 숫자가 본 프로젝트에서 무엇을 의미하는지 설명한다. Classification 지표는
+이 절은 결과표의 숫자가 이 프로젝트에서 무엇을 의미하는지 설명한다. Classification 지표는
 미래 24시간 수익률을 기준으로 만든 `SHORT/HOLD/LONG`을 평가하고, Regression 지표는 미래
 24시간 실제 수익률과 예측 수익률을 직접 비교한다.
 

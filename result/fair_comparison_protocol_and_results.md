@@ -81,8 +81,8 @@ class logits/probability → argmax → SHORT/HOLD/LONG ──┘
 | Ridge Regression | `predicted_return` → 고정 threshold | `raw_future_return` | 참여 |
 | LSTM Classifier | 3-class logits → argmax | `label_id` | 참여 |
 | TimesNet Classifier | 3-class logits → argmax | `label_id` | 참여 |
-| Chronos-2 LoRA Fine-tuned | forecast → return → 고정 threshold | Validation quantile loss 기반 LoRA | 완료 |
-| TimesFM 2.5 LoRA Fine-tuned | forecast → return → 고정 threshold | Validation 공식 loss 기반 LoRA | 완료 |
+| Chronos-2 LoRA Fine-tuned | forecast → return → 고정 threshold | Validation quantile loss 기반 LoRA | 참여 |
+| TimesFM 2.5 LoRA Fine-tuned | forecast → return → 고정 threshold | Validation 공식 loss 기반 LoRA | 참여 |
 | Cryptova-Full | class probability → confidence/risk filter | `label_id` | 주 비교 참여 |
 | Cryptova-Base | class probability → confidence threshold | `label_id` | Ablation 참여 |
 | Cryptova-Raw | class probability → argmax | `label_id` | 순수 출력 ablation 참여 |

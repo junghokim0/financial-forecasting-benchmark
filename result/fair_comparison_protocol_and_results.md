@@ -52,8 +52,8 @@ RMSE / MAE / Pearson / Spearman / Directional Accuracy
 | Ridge Regression | Chart `(72,12)` flatten | `predicted_return` | Ridge 회귀 | 참여 |
 | LSTM Regression | Chart `(72,12)` | `predicted_return` | MSE 회귀학습 | 참여 |
 | TimesNet Regression | Chart `(72,12)` | `predicted_return` | 회귀학습 | 참여 |
-| Chronos-2 LoRA Fine-tuned | BTC close + Chart 12 covariates | forecast/return | 사전학습 모델 LoRA 적응 | 완료 |
-| TimesFM 2.5 LoRA Fine-tuned | BTC close, 최근 64시간 | forecast/return | 사전학습 모델 LoRA 적응 | 완료 |
+| Chronos-2 LoRA Fine-tuned | BTC close + Chart 12 covariates | forecast/return | 사전학습 모델 LoRA 적응 | 참여 |
+| TimesFM 2.5 LoRA Fine-tuned | BTC close, 최근 64시간 | forecast/return | 사전학습 모델 LoRA 적응 | 참여 |
 | LSTM Classifier | Chart `(72,12)` | 3-class logits | 직접 Classification | 제외 |
 | TimesNet Classifier | Chart `(72,12)` | 3-class logits | 직접 Classification | 제외 |
 | Cryptova | Chart+News | 3-class probability | 직접 Classification | 제외 |

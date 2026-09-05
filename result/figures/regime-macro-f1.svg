@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-labelledby="chart-title chart-desc">
+<title id="chart-title">시장 Regime별 신호 분류 성능</title>
+<desc id="chart-desc">Connected OOS Macro F1 · Regime은 진입 전 과거 정보만으로 정의</desc>
+<rect width="100%" height="100%" fill="#FFFFFF"/>
+<style>text{font-family:Arial,"Malgun Gothic",sans-serif;fill:#222} .title{font-size:24px;font-weight:700} .subtitle{font-size:14px;fill:#555} .axis{font-size:13px;fill:#333} .tick{font-size:12px;fill:#555} .legend{font-size:13px;fill:#222} .grid{stroke:#E4E7EB;stroke-width:1} .frame{stroke:#AEB5BD;stroke-width:1;fill:none}</style>
+<text class="title" x="92" y="42">시장 Regime별 신호 분류 성능</text>
+<text class="subtitle" x="92" y="70">Connected OOS Macro F1 · Regime은 진입 전 과거 정보만으로 정의</text>
+<rect class="frame" x="92" y="112" width="850" height="516"/>
+<line class="grid" x1="92" y1="628.00" x2="942" y2="628.00"/>
+<text class="tick" x="80" y="632.00" text-anchor="end">0.20</text>
+<line class="grid" x1="92" y1="524.80" x2="942" y2="524.80"/>
+<text class="tick" x="80" y="528.80" text-anchor="end">0.25</text>
+<line class="grid" x1="92" y1="421.60" x2="942" y2="421.60"/>
+<text class="tick" x="80" y="425.60" text-anchor="end">0.30</text>
+<line class="grid" x1="92" y1="318.40" x2="942" y2="318.40"/>
+<text class="tick" x="80" y="322.40" text-anchor="end">0.35</text>
+<line class="grid" x1="92" y1="215.20" x2="942" y2="215.20"/>
+<text class="tick" x="80" y="219.20" text-anchor="end">0.40</text>
+<line class="grid" x1="92" y1="112.00" x2="942" y2="112.00"/>
+<text class="tick" x="80" y="116.00" text-anchor="end">0.45</text>
+<text class="axis" x="116.00" y="658" text-anchor="middle">단기 상승</text>
+<text class="axis" x="316.50" y="658" text-anchor="middle">단기 하락</text>
+<text class="axis" x="517.00" y="658" text-anchor="middle">단기 중립</text>
+<text class="axis" x="717.50" y="658" text-anchor="middle">고변동성</text>
+<text class="axis" x="918.00" y="658" text-anchor="middle">저변동성</text>
+<text class="axis" transform="translate(24,370.00) rotate(-90)" text-anchor="middle">Macro F1</text>
+<polyline points="116.00,532.38 316.50,434.30 517.00,457.98 717.50,433.81 918.00,507.09" fill="none" stroke="#0072B2" stroke-width="2.4"/>
+<circle cx="116.00" cy="532.38" r="5.00" fill="#0072B2"/>
+<circle cx="316.50" cy="434.30" r="5.00" fill="#0072B2"/>
+<circle cx="517.00" cy="457.98" r="5.00" fill="#0072B2"/>
+<circle cx="717.50" cy="433.81" r="5.00" fill="#0072B2"/>
+<circle cx="918.00" cy="507.09" r="5.00" fill="#0072B2"/>
+<polyline points="116.00,465.87 316.50,338.27 517.00,424.13 717.50,353.79 918.00,454.00" fill="none" stroke="#E69F00" stroke-width="2.4"/>
+<rect x="111.00" y="460.87" width="10.00" height="10.00" fill="#E69F00"/>
+<rect x="311.50" y="333.27" width="10.00" height="10.00" fill="#E69F00"/>
+<rect x="512.00" y="419.13" width="10.00" height="10.00" fill="#E69F00"/>
+<rect x="712.50" y="348.79" width="10.00" height="10.00" fill="#E69F00"/>
+<rect x="913.00" y="449.00" width="10.00" height="10.00" fill="#E69F00"/>
+<polyline points="116.00,324.65 316.50,288.92 517.00,283.10 717.50,310.27 918.00,307.50" fill="none" stroke="#009E73" stroke-width="2.4"/>
+<polygon points="116.00,318.65 110.00,329.65 122.00,329.65" fill="#009E73"/>
+<polygon points="316.50,282.92 310.50,293.92 322.50,293.92" fill="#009E73"/>
+<polygon points="517.00,277.10 511.00,288.10 523.00,288.10" fill="#009E73"/>
+<polygon points="717.50,304.27 711.50,315.27 723.50,315.27" fill="#009E73"/>
+<polygon points="918.00,301.50 912.00,312.50 924.00,312.50" fill="#009E73"/>
+<polyline points="116.00,537.16 316.50,536.43 517.00,526.91 717.50,531.37 918.00,522.95" fill="none" stroke="#CC79A7" stroke-width="2.4"/>
+<polygon points="116.00,531.16 122.00,537.16 116.00,543.16 110.00,537.16" fill="#CC79A7"/>
+<polygon points="316.50,530.43 322.50,536.43 316.50,542.43 310.50,536.43" fill="#CC79A7"/>
+<polygon points="517.00,520.91 523.00,526.91 517.00,532.91 511.00,526.91" fill="#CC79A7"/>
+<polygon points="717.50,525.37 723.50,531.37 717.50,537.37 711.50,531.37" fill="#CC79A7"/>
+<polygon points="918.00,516.95 924.00,522.95 918.00,528.95 912.00,522.95" fill="#CC79A7"/>
+<polyline points="116.00,513.11 316.50,423.23 517.00,461.51 717.50,447.72 918.00,469.19" fill="none" stroke="#D55E00" stroke-width="2.4"/>
+<path d="M 111.00 508.11 L 121.00 518.11 M 121.00 508.11 L 111.00 518.11" stroke="#D55E00" stroke-width="2.4" fill="none"/>
+<path d="M 311.50 418.23 L 321.50 428.23 M 321.50 418.23 L 311.50 428.23" stroke="#D55E00" stroke-width="2.4" fill="none"/>
+<path d="M 512.00 456.51 L 522.00 466.51 M 522.00 456.51 L 512.00 466.51" stroke="#D55E00" stroke-width="2.4" fill="none"/>
+<path d="M 712.50 442.72 L 722.50 452.72 M 722.50 442.72 L 712.50 452.72" stroke="#D55E00" stroke-width="2.4" fill="none"/>
+<path d="M 913.00 464.19 L 923.00 474.19 M 923.00 464.19 L 913.00 474.19" stroke="#D55E00" stroke-width="2.4" fill="none"/>
+<polyline points="116.00,375.24 316.50,195.00 517.00,298.42 717.50,214.06 918.00,354.35" fill="none" stroke="#56B4E9" stroke-width="2.4" stroke-dasharray="8 4"/>
+<circle cx="116.00" cy="375.24" r="5.00" fill="#56B4E9"/>
+<circle cx="316.50" cy="195.00" r="5.00" fill="#56B4E9"/>
+<circle cx="517.00" cy="298.42" r="5.00" fill="#56B4E9"/>
+<circle cx="717.50" cy="214.06" r="5.00" fill="#56B4E9"/>
+<circle cx="918.00" cy="354.35" r="5.00" fill="#56B4E9"/>
+<polyline points="116.00,368.86 316.50,215.81 517.00,317.57 717.50,197.00 918.00,393.03" fill="none" stroke="#6A3D9A" stroke-width="2.4" stroke-dasharray="3 3"/>
+<rect x="111.00" y="363.86" width="10.00" height="10.00" fill="#6A3D9A"/>
+<rect x="311.50" y="210.81" width="10.00" height="10.00" fill="#6A3D9A"/>
+<rect x="512.00" y="312.57" width="10.00" height="10.00" fill="#6A3D9A"/>
+<rect x="712.50" y="192.00" width="10.00" height="10.00" fill="#6A3D9A"/>
+<rect x="913.00" y="388.03" width="10.00" height="10.00" fill="#6A3D9A"/>
+<polyline points="116.00,411.73 316.50,282.19 517.00,356.74 717.50,250.35 918.00,429.10" fill="none" stroke="#111111" stroke-width="2.4"/>
+<polygon points="116.00,405.73 122.00,411.73 116.00,417.73 110.00,411.73" fill="#111111"/>
+<polygon points="316.50,276.19 322.50,282.19 316.50,288.19 310.50,282.19" fill="#111111"/>
+<polygon points="517.00,350.74 523.00,356.74 517.00,362.74 511.00,356.74" fill="#111111"/>
+<polygon points="717.50,244.35 723.50,250.35 717.50,256.35 711.50,250.35" fill="#111111"/>
+<polygon points="918.00,423.10 924.00,429.10 918.00,435.10 912.00,429.10" fill="#111111"/>
+<line x1="976" y1="120" x2="1010" y2="120" stroke="#0072B2" stroke-width="2.4"/>
+<circle cx="993.00" cy="120.00" r="4.20" fill="#0072B2"/>
+<text class="legend" x="1022" y="124">Ridge-Flat</text>
+<line x1="976" y1="163" x2="1010" y2="163" stroke="#E69F00" stroke-width="2.4"/>
+<rect x="988.80" y="158.80" width="8.40" height="8.40" fill="#E69F00"/>
+<text class="legend" x="1022" y="167">LSTM Classifier</text>
+<line x1="976" y1="206" x2="1010" y2="206" stroke="#009E73" stroke-width="2.4"/>
+<polygon points="993.00,200.80 987.80,210.20 998.20,210.20" fill="#009E73"/>
+<text class="legend" x="1022" y="210">TimesNet Classifier</text>
+<line x1="976" y1="249" x2="1010" y2="249" stroke="#CC79A7" stroke-width="2.4"/>
+<polygon points="993.00,243.80 998.20,249.00 993.00,254.20 987.80,249.00" fill="#CC79A7"/>
+<text class="legend" x="1022" y="253">Chronos-2 LoRA</text>
+<line x1="976" y1="292" x2="1010" y2="292" stroke="#D55E00" stroke-width="2.4"/>
+<path d="M 988.80 287.80 L 997.20 296.20 M 997.20 287.80 L 988.80 296.20" stroke="#D55E00" stroke-width="2.4" fill="none"/>
+<text class="legend" x="1022" y="296">TimesFM 2.5 LoRA</text>
+<line x1="976" y1="335" x2="1010" y2="335" stroke="#56B4E9" stroke-width="2.4" stroke-dasharray="8 4"/>
+<circle cx="993.00" cy="335.00" r="4.20" fill="#56B4E9"/>
+<text class="legend" x="1022" y="339">Cryptova-Raw</text>
+<line x1="976" y1="378" x2="1010" y2="378" stroke="#6A3D9A" stroke-width="2.4" stroke-dasharray="3 3"/>
+<rect x="988.80" y="373.80" width="8.40" height="8.40" fill="#6A3D9A"/>
+<text class="legend" x="1022" y="382">Cryptova-Base</text>
+<line x1="976" y1="421" x2="1010" y2="421" stroke="#111111" stroke-width="2.4"/>
+<polygon points="993.00,415.80 998.20,421.00 993.00,426.20 987.80,421.00" fill="#111111"/>
+<text class="legend" x="1022" y="425">Cryptova-Full</text>
+</svg>

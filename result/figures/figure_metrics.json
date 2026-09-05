@@ -1,0 +1,167 @@
+{
+  "source": "public prediction artifacts and regime_analysis CSV",
+  "regression": {
+    "Zero-return baseline": {
+      "RMSE": 0.022948335705972104,
+      "MAE": 0.016422365285869548
+    },
+    "Ridge-Flat": {
+      "RMSE": 0.023177589344834007,
+      "MAE": 0.016619866825133927
+    },
+    "LSTM": {
+      "RMSE": 0.023789932676638634,
+      "MAE": 0.017203008273473753
+    },
+    "TimesNet": {
+      "RMSE": 0.023916014109305682,
+      "MAE": 0.017317096277416608
+    },
+    "Chronos-2 LoRA": {
+      "RMSE": 0.024300298727548682,
+      "MAE": 0.017148117643231136
+    },
+    "TimesFM 2.5 LoRA": {
+      "RMSE": 0.024991577234697318,
+      "MAE": 0.017803688331351517
+    }
+  },
+  "classification": {
+    "Ridge-Flat": {
+      "Macro F1": 0.28469136823317515,
+      "Balanced Accuracy": 0.3438036517670815,
+      "SHORT Recall": 0.034202898550724635,
+      "HOLD Recall": 0.906298965841429,
+      "LONG Recall": 0.09090909090909091
+    },
+    "LSTM Classifier": {
+      "Macro F1": 0.31819736040603214,
+      "Balanced Accuracy": 0.35686393123391197,
+      "SHORT Recall": 0.05507246376811594,
+      "HOLD Recall": 0.853337511751802,
+      "LONG Recall": 0.16218181818181818
+    },
+    "TimesNet Classifier": {
+      "Macro F1": 0.3646542243932054,
+      "Balanced Accuracy": 0.366543111548221,
+      "SHORT Recall": 0.20753623188405798,
+      "HOLD Recall": 0.623002193669696,
+      "LONG Recall": 0.2690909090909091
+    },
+    "Chronos-2 LoRA": {
+      "Macro F1": 0.2519995465764541,
+      "Balanced Accuracy": 0.3389280022439043,
+      "SHORT Recall": 0.022028985507246378,
+      "HOLD Recall": 0.9714822939517392,
+      "LONG Recall": 0.02327272727272727
+    },
+    "TimesFM 2.5 LoRA": {
+      "Macro F1": 0.28701327910541824,
+      "Balanced Accuracy": 0.3457346910716033,
+      "SHORT Recall": 0.057391304347826085,
+      "HOLD Recall": 0.9172673143215293,
+      "LONG Recall": 0.06254545454545454
+    },
+    "Cryptova-Raw": {
+      "Macro F1": 0.3818750435136762,
+      "Balanced Accuracy": 0.39380167678997263,
+      "SHORT Recall": 0.15710144927536232,
+      "HOLD Recall": 0.671576308367283,
+      "LONG Recall": 0.3527272727272727
+    },
+    "Cryptova-Base": {
+      "Macro F1": 0.3765060603229519,
+      "Balanced Accuracy": 0.38964697896628736,
+      "SHORT Recall": 0.1426086956521739,
+      "HOLD Recall": 0.72015042306487,
+      "LONG Recall": 0.30618181818181817
+    },
+    "Cryptova-Full": {
+      "Macro F1": 0.35089825876365893,
+      "Balanced Accuracy": 0.36864898270787116,
+      "SHORT Recall": 0.1426086956521739,
+      "HOLD Recall": 0.7909746161078032,
+      "LONG Recall": 0.17236363636363636
+    }
+  },
+  "backtest": {
+    "Ridge-Flat": {
+      "cumulative_return": -5.290437119964686e-05,
+      "sharpe_like": 0.1251530040964301,
+      "max_drawdown": -0.1441740379019909,
+      "trade_count": 86,
+      "trade_ratio": 0.013670322683198219,
+      "win_rate": 0.5,
+      "avg_trade_return": 0.0002634088328140381
+    },
+    "LSTM Classifier": {
+      "cumulative_return": -0.39670949952831314,
+      "sharpe_like": -1.8895409395774907,
+      "max_drawdown": -0.5153746655078699,
+      "trade_count": 138,
+      "trade_ratio": 0.021936099189318072,
+      "win_rate": 0.42028985507246375,
+      "avg_trade_return": -0.0033548420773818503
+    },
+    "TimesNet Classifier": {
+      "cumulative_return": -0.16214542632769202,
+      "sharpe_like": -0.44900345973781425,
+      "max_drawdown": -0.23749608295093205,
+      "trade_count": 187,
+      "trade_ratio": 0.029725003973931012,
+      "win_rate": 0.48128342245989303,
+      "avg_trade_return": -0.000661636547882376
+    },
+    "Chronos-2 LoRA": {
+      "cumulative_return": -0.24636512008404632,
+      "sharpe_like": -1.4063193175141404,
+      "max_drawdown": -0.2475271130749176,
+      "trade_count": 59,
+      "trade_ratio": 0.009378477189635987,
+      "win_rate": 0.3559322033898305,
+      "avg_trade_return": -0.00439079668051398
+    },
+    "TimesFM 2.5 LoRA": {
+      "cumulative_return": -0.30963013178761556,
+      "sharpe_like": -1.3455575562970143,
+      "max_drawdown": -0.4121903712652977,
+      "trade_count": 104,
+      "trade_ratio": 0.016531553012239707,
+      "win_rate": 0.5,
+      "avg_trade_return": -0.0031600225396651058
+    },
+    "Cryptova-Raw": {
+      "cumulative_return": -0.18106005761500088,
+      "sharpe_like": -0.54523230841853,
+      "max_drawdown": -0.3673521268408195,
+      "trade_count": 178,
+      "trade_ratio": 0.028294388809410268,
+      "win_rate": 0.48314606741573035,
+      "avg_trade_return": -0.0008335747895902409
+    },
+    "Cryptova-Base": {
+      "cumulative_return": 0.07416473200054674,
+      "sharpe_like": 0.4462642578981333,
+      "max_drawdown": -0.3738350632689612,
+      "trade_count": 158,
+      "trade_ratio": 0.02511524399936417,
+      "win_rate": 0.4810126582278481,
+      "avg_trade_return": 0.0008038981876922174
+    },
+    "Cryptova-Full": {
+      "cumulative_return": 0.2746276310215823,
+      "sharpe_like": 1.14277919866911,
+      "max_drawdown": -0.2439703278338753,
+      "trade_count": 119,
+      "trade_ratio": 0.01891591161977428,
+      "win_rate": 0.5546218487394958,
+      "avg_trade_return": 0.0023955595375189697
+    }
+  },
+  "figures": [
+    "backtest-equity-connected-oos.svg",
+    "classification-connected-oos.svg",
+    "regime-macro-f1.svg",
+    "regression-connected-oos.svg"
+  ]
+}

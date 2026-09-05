@@ -888,6 +888,17 @@ Connected OOS Macro F1은 `0.381875`, Balanced Accuracy는 `0.393802`로 현재 
 
 ## 5. 최종 통합 결과표
 
+### 5.0 주요 결과 시각화
+
+아래 그래프는 공개된 prediction CSV를 공통 evaluator로 다시 계산해 생성했다. 모델별 색상은
+모든 그래프에서 동일하다.
+
+![Connected OOS 수익률 예측 오차](figures/regression-connected-oos.svg)
+
+![Connected OOS 신호 분류 성능](figures/classification-connected-oos.svg)
+
+![거래비용 반영 Connected OOS 누적 자산곡선](figures/backtest-equity-connected-oos.svg)
+
 ### 5.1 Regression Track
 
 | Model | Input | 최종 모델 선택 기준 | RMSE | MAE | Pearson | Spearman | Directional Accuracy |
@@ -1139,6 +1150,8 @@ Zero-return baseline은 현재 Regime별 승자 계산에 포함하지 않았다
 | 단기 중립 | TimesNet Classifier | 0.367104 |
 | 고변동성 | Cryptova-Base | 0.408816 |
 | 저변동성 | TimesNet Classifier | 0.355281 |
+
+![시장 Regime별 신호 분류 성능](figures/regime-macro-f1.svg)
 
 Cryptova의 분류 강점은 단기 하락과 고변동성 구간에서 가장 뚜렷했다. TimesNet은 단기 상승,
 중립 및 저변동성에서 가장 높은 Macro F1을 기록해 Chart-only 모델로서 비교적 고른 결과를

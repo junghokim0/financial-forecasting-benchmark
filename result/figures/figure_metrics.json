@@ -160,8 +160,6 @@
   },
   "figures": [
     "backtest-equity-connected-oos.svg",
-    "classification-connected-oos.svg",
-    "regime-macro-f1.svg",
-    "regression-connected-oos.svg"
+    "regime-macro-f1.svg"
   ]
 }

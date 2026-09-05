@@ -890,12 +890,8 @@ Connected OOS Macro F1은 `0.381875`, Balanced Accuracy는 `0.393802`로 현재 
 
 ### 5.0 주요 결과 시각화
 
-아래 그래프는 공개된 prediction CSV를 공통 evaluator로 다시 계산해 생성했다. 모델별 색상은
-모든 그래프에서 동일하다.
-
-![Connected OOS 수익률 예측 오차](figures/regression-connected-oos.svg)
-
-![Connected OOS 신호 분류 성능](figures/classification-connected-oos.svg)
+아래 누적 자산곡선은 공개된 prediction CSV를 공통 evaluator로 다시 계산해 생성했다.
+모델별 색상은 Regime 그래프와 동일하다.
 
 ![거래비용 반영 Connected OOS 누적 자산곡선](figures/backtest-equity-connected-oos.svg)
 

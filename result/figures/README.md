@@ -6,15 +6,12 @@ Regime 분석 CSV에서 계산한다.
 
 ## 그래프
 
-- `regression-connected-oos.svg`: Regression 모델의 RMSE와 MAE
-- `classification-connected-oos.svg`: 모든 Classification 비교 모델의 Macro F1,
-  Balanced Accuracy 및 class별 Recall
 - `backtest-equity-connected-oos.svg`: 동일한 비용과 24시간 non-overlap 규칙을 적용한
   누적 자산곡선
 - `regime-macro-f1.svg`: 방향·변동성 Regime별 Macro F1
 - `figure_metrics.json`: 그래프 생성에 사용한 재계산 결과
 
-모델별 색상은 모든 그래프에서 동일하다. 색상뿐 아니라 marker와 일부 line style도 함께
+모델별 색상은 두 그래프에서 동일하다. 색상뿐 아니라 marker와 일부 line style도 함께
 사용해 모델을 구분한다.
 
 ## 다시 생성하기

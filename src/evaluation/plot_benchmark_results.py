@@ -449,50 +449,6 @@ def main() -> None:
     backtests = write_equity_chart(output / "backtest-equity-connected-oos.svg", cls_frames)
     validate_against_report(regression, classification, backtests)
 
-    regression_categories = ["RMSE", "MAE"]
-    write_categorical_lines(
-        output / "regression-connected-oos.svg",
-        "Connected OOS 수익률 예측 오차",
-        "낮을수록 좋음 · 모든 값은 24시간 수익률 단위",
-        regression_categories,
-        {model: [metrics[key] for key in regression_categories] for model, metrics in regression.items()},
-        0.0155,
-        0.0255,
-        [0.016, 0.018, 0.020, 0.022, 0.024],
-        "오차",
-        lambda value: f"{value:.3f}",
-    )
-
-    classification_keys = [
-        "Macro F1",
-        "Balanced Accuracy",
-        "SHORT Recall",
-        "HOLD Recall",
-        "LONG Recall",
-    ]
-    classification_categories = [
-        "Macro F1",
-        "Balanced Acc.",
-        "SHORT Recall",
-        "HOLD Recall",
-        "LONG Recall",
-    ]
-    write_categorical_lines(
-        output / "classification-connected-oos.svg",
-        "Connected OOS 신호 분류 성능",
-        "동일한 6,291개 시간별 표본 · 미래 24시간 SHORT / HOLD / LONG",
-        classification_categories,
-        {
-            model: [metrics[key] for key in classification_keys]
-            for model, metrics in classification.items()
-        },
-        0.0,
-        1.0,
-        [0.0, 0.2, 0.4, 0.6, 0.8, 1.0],
-        "점수",
-        lambda value: f"{value:.1f}",
-    )
-
     regime_path = root / "outputs" / "regime_analysis" / "classification_by_regime.csv"
     regime = pd.read_csv(regime_path)
     regime_order = ["UP", "DOWN", "SIDEWAYS", "HIGH", "LOW"]

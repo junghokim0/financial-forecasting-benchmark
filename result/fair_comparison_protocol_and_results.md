@@ -1171,7 +1171,7 @@ Zero-return baseline은 현재 Regime별 승자 계산에 포함하지 않았다
 | 고변동성 | Cryptova-Base | 0.408816 |
 | 저변동성 | TimesNet Classifier | 0.355281 |
 
-![시장 Regime별 신호 분류 성능](figures/regime-macro-f1.svg)
+![시장 Regime별 신호 분류 성능](figures/regime-macro-f1.svg?v=2)
 
 Cryptova의 분류 강점은 단기 하락과 고변동성 구간에서 가장 뚜렷했다. TimesNet은 단기 상승,
 중립 및 저변동성에서 가장 높은 Macro F1을 기록해 Chart-only 모델로서 비교적 고른 결과를

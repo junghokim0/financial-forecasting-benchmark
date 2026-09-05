@@ -460,7 +460,7 @@ def main() -> None:
     write_categorical_lines(
         output / "regime-macro-f1.svg",
         "시장 Regime별 신호 분류 성능",
-        "Connected OOS Macro F1 · Regime은 진입 전 과거 정보만으로 정의",
+        "Connected OOS Macro F1 · 각 예측 시점의 return_72h와 std_24h로 Regime 구분",
         regime_labels,
         regime_series,
         0.20,

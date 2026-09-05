@@ -1075,6 +1075,16 @@ Regime을 고정했다”고 주장하지 않는다. 다만 아래 정의와 thr
 
 ### 6.1 Regime 정의
 
+이 분석을 위해 모델을 다시 학습하거나 새로 예측하지 않았다. 이미 생성된
+Rolling 1–3의 OOS 예측 결과를 시장 상태별로 다시 묶어 성능을 계산했다. 각 예측
+시점 `t`에는 다음 두 개의 Regime 정보를 부여했다.
+
+```text
+예측 시점 t
+├─ return_72h 확인 → 단기 상승 / 하락 / 중립
+└─ std_24h 확인    → 고변동성 / 저변동성
+```
+
 방향 Regime은 **예측 시점 직전 과거 72시간 동안 가격이 상대적으로 상승 추세였는지,
 하락 추세였는지**를 나타낸다. 장기 상승장·하락장의 정의가 아니라
 `72시간 수익률 기반 단기 가격 상태`다.
@@ -1098,9 +1108,23 @@ R_{72}(t)=\frac{Close_t}{Close_{t-72}}-1
 저변동성: std_24h <= Train std_24h 중앙값
 ```
 
+예를 들어 예측 시점의 `return_72h`가 하락 기준 이하이고 `std_24h`가 중앙값보다
+높으면 해당 시점을 `단기 하락·고변동성(DOWN_HIGH)`으로 구분했다.
+
+성능은 다음과 같이 재계산했다.
+
+```text
+Classification
+→ 모든 1시간 단위 OOS 예측을 예측 시점의 Regime별로 묶어 Macro F1 계산
+
+Backtest
+→ 24시간 non-overlap 규칙으로 실제 선택된 거래만 진입 시점의 Regime별로 묶어 수익률 계산
+```
+
 미래 24시간 수익률은 Regime 결정에 사용하지 않았다. 각 Rolling Train에서 계산한 기준을 해당
 Validation·Test에 변경 없이 적용했다. 방향과 변동성을 결합해 `UP_HIGH`, `DOWN_LOW` 등
-6개의 복합 Regime도 함께 평가했다.
+6개의 복합 Regime도 함께 평가했다. Funding Rate은 Regime 구분에 사용하지
+않았으며, Cryptova-Full의 Risk Filter에만 사용했다.
 
 ### 6.2 Rolling별 Train 기준값
 

@@ -83,7 +83,22 @@ DOWN:     return_72h <= Train Q33 and return_72h < 0
 SIDEWAYS: otherwise
 ```
 
-Volatility is split using the corresponding rolling Train median of `std_24h`. Detailed conditional metrics and the six combined regimes are available in [`outputs/regime_analysis`](outputs/regime_analysis) and Section 6 of the result document.
+The volatility regime describes whether the market was relatively volatile over the 24 hours immediately before each prediction. The corresponding rolling Train median of `std_24h` is used as the threshold:
+
+```text
+HIGH: std_24h > Train std_24h median
+LOW:  std_24h <= Train std_24h median
+```
+
+Each prediction receives both a direction regime and a volatility regime, producing six combined regimes:
+
+```text
+UP_HIGH        UP_LOW
+DOWN_HIGH      DOWN_LOW
+SIDEWAYS_HIGH  SIDEWAYS_LOW
+```
+
+Detailed conditional metrics are available in [`outputs/regime_analysis`](outputs/regime_analysis) and Section 6 of the [result document](result/fair_comparison_protocol_and_results.md#6-market-regime-분석).
 
 ## Repository layout
 

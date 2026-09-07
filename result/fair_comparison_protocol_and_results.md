@@ -1163,6 +1163,8 @@ Zero-return baseline은 현재 Regime별 승자 계산에 포함하지 않았다
 
 ### 6.5 Regime별 신호 분류 결과
 
+#### 6.5.1 방향·변동성 단일축 결과
+
 | Regime | 최고 Macro F1 모델 | Macro F1 |
 |---|---|---:|
 | 단기 상승 | TimesNet Classifier | 0.346972 |
@@ -1177,6 +1179,26 @@ Cryptova의 분류 강점은 단기 하락과 고변동성 구간에서 가장 �
 중립 및 저변동성에서 가장 높은 Macro F1을 기록해 Chart-only 모델로서 비교적 고른 결과를
 보였다. Cryptova-Full은 거래 필터 때문에 Raw·Base보다 신호 수가 줄어 순수 분류 Macro F1의
 최고 모델은 아니었다.
+
+#### 6.5.2 방향×변동성 복합 Regime 결과
+
+단일축 결과에서 `단기 상승`은 `UP_HIGH`와 `UP_LOW`를 합친 값이고, `고변동성`은
+`UP_HIGH`, `DOWN_HIGH`, `SIDEWAYS_HIGH`를 합친 값이다. 아래 표는 두 조건을 결합한
+6개 복합 Regime을 각각 분리해 계산한 결과다.
+
+| 복합 Regime | 의미 | 최고 Macro F1 모델 | Macro F1 |
+|---|---|---|---:|
+| 상승·고변동성 (`UP_HIGH`) | 단기 상승이면서 고변동성 | Cryptova-Base | 0.362986 |
+| 상승·저변동성 (`UP_LOW`) | 단기 상승이면서 저변동성 | TimesNet Classifier | 0.351864 |
+| 하락·고변동성 (`DOWN_HIGH`) | 단기 하락이면서 고변동성 | Cryptova-Raw | 0.431269 |
+| 하락·저변동성 (`DOWN_LOW`) | 단기 하락이면서 저변동성 | TimesNet Classifier | 0.354073 |
+| 중립·고변동성 (`SIDEWAYS_HIGH`) | 단기 중립이면서 고변동성 | Cryptova-Base | 0.398617 |
+| 중립·저변동성 (`SIDEWAYS_LOW`) | 단기 중립이면서 저변동성 | TimesNet Classifier | 0.353759 |
+
+복합 결과에서는 고변동성 세 구간의 최고 Macro F1 모델이 모두 Cryptova 계열이었고,
+저변동성 세 구간에서는 모두 TimesNet Classifier가 가장 높았다. 특히
+`DOWN_HIGH`에서 Cryptova-Raw가 전체 복합 Regime 중 가장 높은 Macro F1 `0.431269`를
+기록했다.
 
 ### 6.6 비용 반영 거래성과
 

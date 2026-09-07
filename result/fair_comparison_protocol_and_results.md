@@ -1195,6 +1195,8 @@ Cryptova의 분류 강점은 단기 하락과 고변동성 구간에서 가장 �
 | 중립·고변동성 (`SIDEWAYS_HIGH`) | 단기 중립이면서 고변동성 | Cryptova-Base | 0.398617 |
 | 중립·저변동성 (`SIDEWAYS_LOW`) | 단기 중립이면서 저변동성 | TimesNet Classifier | 0.353759 |
 
+![복합 Regime별 신호 분류 성능](figures/combined-regime-macro-f1.svg)
+
 복합 결과에서는 고변동성 세 구간의 최고 Macro F1 모델이 모두 Cryptova 계열이었고,
 저변동성 세 구간에서는 모두 TimesNet Classifier가 가장 높았다. 특히
 `DOWN_HIGH`에서 Cryptova-Raw가 전체 복합 Regime 중 가장 높은 Macro F1 `0.431269`를

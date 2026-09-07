@@ -160,6 +160,7 @@
   },
   "figures": [
     "backtest-equity-connected-oos.svg",
+    "combined-regime-macro-f1.svg",
     "regime-macro-f1.svg"
   ]
 }

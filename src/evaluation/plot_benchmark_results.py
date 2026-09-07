@@ -470,6 +470,41 @@ def main() -> None:
         lambda value: f"{value:.2f}",
     )
 
+    combined_order = [
+        "UP_HIGH",
+        "UP_LOW",
+        "DOWN_HIGH",
+        "DOWN_LOW",
+        "SIDEWAYS_HIGH",
+        "SIDEWAYS_LOW",
+    ]
+    combined_labels = [
+        "상승·고변동",
+        "상승·저변동",
+        "하락·고변동",
+        "하락·저변동",
+        "중립·고변동",
+        "중립·저변동",
+    ]
+    combined_series: dict[str, list[float]] = {}
+    for model in cls_frames:
+        model_rows = regime[regime["model"] == model].set_index("regime")
+        combined_series[model] = [
+            float(model_rows.loc[name, "macro_f1"]) for name in combined_order
+        ]
+    write_categorical_lines(
+        output / "combined-regime-macro-f1.svg",
+        "복합 Regime별 신호 분류 성능",
+        "Connected OOS Macro F1 · 방향(return_72h) × 변동성(std_24h)",
+        combined_labels,
+        combined_series,
+        0.20,
+        0.45,
+        [0.20, 0.25, 0.30, 0.35, 0.40, 0.45],
+        "Macro F1",
+        lambda value: f"{value:.2f}",
+    )
+
     summary = {
         "source": "public prediction artifacts and regime_analysis CSV",
         "regression": regression,

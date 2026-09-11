@@ -969,23 +969,39 @@ TimesNet 두 task는 CPU에서 동시에 실행했으므로 위 elapsed time은 
 | 비용 반영 Backtest | Cryptova-Full | 현재 완료 모델 중 가장 높은 연결 OOS 수익률(+27.46%)과 Sharpe-like(+1.143) 기록 |
 | 적극적 신호 중 손실 규모 | TimesNet Classifier | LSTM보다 손실과 MDD가 작지만 최종 수익률은 여전히 음수 |
 
-현재 결과는 예측 지표와 투자성과를 분리해서 해석해야 함을 보여준다. TimesNet은 Macro F1을 개선했지만 거래 수가 증가했고, 거래당 비용 차감 전 평균수익 약 `+0.134%`가 총비용 `0.20%`보다 작아 연결 수익률은 `-16.21%`가 됐다. 따라서 높은 분류 성능이 자동으로 높은 순수익을 의미하지 않는다.
+결과를 한데 모아 놓고 보니 가장 먼저 눈에 들어온 것은 분류 점수와 투자성과의 순서가 일치하지
+않는다는 점이었다. TimesNet은 Macro F1을 끌어올렸지만 신호가 늘어난 만큼 거래도 많아졌다.
+거래당 비용 차감 전 평균수익은 약 `+0.134%`였고, 이는 한 번의 거래에 가정한 총비용
+`0.20%`보다 작았다. 결국 Connected OOS 수익률은 `-16.21%`가 됐다. 신호를 더 자주 맞히는
+것과 비용을 내고도 이익을 남기는 것은 같은 문제가 아니었다.
 
-Cryptova-Full은 TimesNet Classifier보다 Macro F1은 낮았지만 비용 반영 Connected OOS에서 `+27.46%`를 기록했다. 반면 rolling 2 손실과 rolling 3 수익 의존성이 커서, 현재 결과는 최종 시스템의 잠재적 수익성을 보여주지만 안정적인 regime 일반화를 입증한 것은 아니다. Fusion base와 Risk Filter의 기여도는 Cryptova-Base ablation 결과를 추가해 분리한다.
+Cryptova의 결과는 이 차이를 더 선명하게 보여줬다. 후처리를 전혀 사용하지 않은 Raw는 Macro
+F1 `0.381875`, Balanced Accuracy `0.393802`로 TimesNet Classifier의 `0.364654 /
+0.366543`보다 높았다. 모델 자체의 분류력은 경쟁력이 있었지만 Backtest는 `-18.11%`였다.
+정답 신호를 비교적 잘 구분하더라도, 실제로 어떤 신호를 거래할지 걸러내지 않으면 수익으로
+이어지지 않았다는 뜻이다.
 
-Cryptova-Base는 Macro F1 `0.376506`과 Balanced Accuracy `0.389647`로 TimesNet Classifier를 모두 상회했고 Connected OOS 수익률도 `+7.42%`였다. Risk Filter를 추가한 Full은 Macro F1을 낮췄지만 수익률을 `+27.46%`로 높이고 MDD를 `-37.38%`에서 `-24.40%`로 줄였다. 이는 모델 분류 성능과 최종 위험조정 거래성과를 별도로 평가해야 한다는 근거다.
+그래서 같은 checkpoint에 Confidence와 Risk Filter를 단계적으로 적용한 결과를 비교했다.
+Cryptova-Base는 Macro F1 `0.376506`, Balanced Accuracy `0.389647`을 유지하면서 연결 수익률을
+`+7.42%`로 바꿨다. 여기에 Risk Filter를 더한 Full에서는 분류 점수가 낮아진 대신 수익률이
+`+27.46%`까지 높아졌고, MDD도 `-37.38%`에서 `-24.40%`로 줄었다. 내가 이 ablation에서
+확인한 것은 후처리가 분류 점수를 높인 것이 아니라 **거래할 신호의 수와 선택을 조절해 경제적
+성과를 바꿨다**는 점이다. 다만 Full의 이익이 Rolling 3에 크게 의존하고 Rolling 2에서는
+손실이 났기 때문에, 이를 곧바로 안정적인 Regime 일반화로 해석하지는 않았다.
 
-Cryptova-Raw는 Macro F1 `0.381875`, Balanced Accuracy `0.393802`로 후처리 없는 출력에서도 TimesNet Classifier의 `0.364654 / 0.366543`을 상회했다. 그러나 Raw Backtest는 `-18.11%`였다. Confidence와 Risk Filter는 분류 점수를 높인 것이 아니라 신호 수와 거래 선택을 조절해 경제적 성과를 개선했다.
+대규모 사전학습을 거친 모델이라면 제한된 데이터에서도 강점을 보일 수 있다고 기대했지만,
+이번 설정에서는 Chronos-2와 TimesFM 모두 그 기대에 미치지 못했다. Chronos-2 LoRA의 RMSE는
+`0.024300`으로 Ridge-Flat, LSTM Regression, TimesNet Regression보다 컸다. 예측의
+`95.74%`가 HOLD에 몰리면서 Macro F1은 `0.252000`, SHORT/LONG recall은 `0.0220 /
+0.0233`에 머물렀고, Connected OOS 수익률도 `-24.64%`였다. 특히 Rolling 3에서 나타난 음의
+상관은 현재 조건에서 Regime이 달라질 때 예측 관계가 안정적으로 유지되지 않았음을 보여준다.
 
-Chronos-2 LoRA Fine-tuned는 RMSE `0.024300`으로 Ridge-Flat, LSTM Regression 및 TimesNet Regression보다 낮은 순위를 기록했다. 또한 예측 신호의 `95.74%`가 HOLD에 집중되어 Macro F1은 `0.252000`, SHORT/LONG recall은 각각 `0.0220 / 0.0233`에 그쳤다. 이는 사전학습 foundation model에 Chart 12 covariate를 제공하고 LoRA로 적응했더라도 현재 데이터·target·고정 threshold 조건에서 기존 baseline이나 Cryptova보다 자동으로 우수해지지 않았음을 보여준다. 특히 Connected OOS 수익률 `-24.64%`와 Rolling 3의 음의 상관은 현재 설정의 regime 일반화가 약하다는 근거다.
-
-TimesFM 2.5 LoRA Fine-tuned는 RMSE `0.024992`로 현재 Regression 모델 중 가장 큰 오차를
-기록했다. 방향 정확도 `49.83%`는 상대적으로 가장 높지만 50% 미만이며 Pearson도
-`-0.0973`이므로 안정적인 예측력으로 해석할 수 없다. Macro F1은 `0.287013`으로 Chronos-2와
-Ridge-Flat보다 높지만 LSTM Classifier, TimesNet Classifier 및 Cryptova보다 낮았다. 예측의
-`89.38%`가 HOLD에 편중됐고 Connected OOS 수익률은 `-30.96%`였다. 따라서 현재
-close-only 64시간 조건에서는 대규모 사전학습과 LoRA가 기존 baseline 또는 Cryptova 대비
-우위로 이어지지 않았다.
+TimesFM 2.5 LoRA는 조금 다른 모습을 보였다. 방향 정확도 `49.83%`는 비교 모델 중 가장
+높았지만 50%를 넘지 못했고 Pearson도 `-0.0973`이었다. RMSE
+`0.024992`는 Regression 모델 중 가장 컸다. Macro F1 `0.287013`은 Chronos-2와 Ridge-Flat보다
+높았지만 LSTM Classifier, TimesNet Classifier, Cryptova에는 미치지 못했다. 여기에 예측의
+`89.38%`가 HOLD였고 연결 수익률은 `-30.96%`였다. 따라서 이번 close-only 64시간 실험에서
+사전학습과 LoRA 자체가 기존 baseline이나 Cryptova보다 나은 결과를 보장하지는 않았다.
 
 ### 5.6 모델별 최적 활용 목적
 

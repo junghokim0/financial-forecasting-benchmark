@@ -2,6 +2,8 @@
 
 This repository compares traditional, specialized, and pretrained time-series models on a common Bitcoin forecasting protocol. The primary goal is to determine whether foundation models are competitive with simpler baselines and the Chart+News Cryptova system under identical out-of-sample evaluation rules.
 
+For the complete evaluation protocol, detailed research results, analysis, and limitations, see [`result/fair_comparison_protocol_and_results.md`](result/fair_comparison_protocol_and_results.md).
+
 ## Research questions
 
 1. Can time-series foundation models outperform traditional forecasting models?

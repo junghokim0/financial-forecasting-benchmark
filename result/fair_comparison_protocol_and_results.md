@@ -957,44 +957,7 @@ Ridge-Flat의 Regression 지표는 각 rolling에서 **Validation RMSE로 선택
 
 TimesNet 두 task는 CPU에서 동시에 실행했으므로 위 elapsed time은 CPU 자원 경합의 영향을 받는다. 모델 파라미터 수는 직접 비교할 수 있지만, LSTM과의 순수 학습속도 비교에는 동일한 단독 실행 환경에서 별도 측정이 필요하다.
 
-### 5.5 완료된 모델 비교 분석
-
-| 관점 | 현재 우세 모델 | 해석 |
-|---|---|---|
-| Regression RMSE·MAE | Zero-return baseline; 학습 모델 중 Ridge-Flat | 모든 학습 모델이 항상 `0%`를 예측하는 naive baseline의 오차를 낮추지 못함 |
-| Regression Directional Accuracy | TimesFM 2.5 | 49.83%로 수치상 가장 높지만 50% 미만 |
-| Chronos-2 Regression | 기존 세 baseline보다 열세 | RMSE 0.024300, 음의 Pearson -0.1095로 안정적인 수익률 예측 관계를 확인하지 못함 |
-| TimesFM 2.5 Regression | 현재 Regression 모델 중 RMSE·MAE 최하위 | 방향 정확도는 상대적으로 높지만 수익률 크기와 상관관계 예측은 불안정 |
-| Classification Macro F1·class 균형 | Cryptova-Raw | Macro F1 0.3819, Balanced Accuracy 0.3938로 현재 완료 모델 중 가장 높음 |
-| 비용 반영 Backtest | Cryptova-Full | 현재 완료 모델 중 가장 높은 연결 OOS 수익률(+27.46%)과 Sharpe-like(+1.143) 기록 |
-| 적극적 신호 중 손실 규모 | TimesNet Classifier | LSTM보다 손실과 MDD가 작지만 최종 수익률은 여전히 음수 |
-
-결과를 보니 모델의 순위를 하나로 정하기는 어려웠다. TimesNet이 그 이유를 가장 잘 보여준다.
-신호 분류는 개선됐지만 거래가 늘었고, 비용을 빼기 전 거래당 평균수익 `+0.134%`는 가정한
-총비용 `0.20%`에도 미치지 못했다. Connected OOS 수익률이 `-16.21%`로 끝난 것은 이 때문이다.
-Macro F1이 높아졌다는 사실만으로 실제 계좌의 순수익까지 좋아졌다고 말할 수는 없었다.
-
-Cryptova는 하나의 checkpoint를 Raw, Base, Full로 나누어 본 덕분에 이 차이를 더 구체적으로
-확인할 수 있었다. Raw의 Macro F1 `0.381875`와 Balanced Accuracy `0.393802`는 TimesNet
-Classifier보다 높았지만, 거래 결과는 `-18.11%`였다. Confidence를 적용한 Base에서는 분류
-점수를 크게 잃지 않으면서 수익률이 `+7.42%`로 돌아섰다. 마지막으로 Risk Filter까지 적용하자
-수익률은 `+27.46%`가 됐고 MDD는 `-37.38%`에서 `-24.40%`로 줄었다. 분류 정답을 더 많이
-만든 것이 아니라, 실제로 거래할 신호를 골라내는 과정에서 성과가 달라진 것이다. 물론 이익이
-Rolling 3에 치우치고 Rolling 2에서는 손실이 났다는 사실도 함께 남는다.
-
-Foundation model의 결과는 예상과 달랐다. 대규모 사전학습과 LoRA가 제한된 데이터에서 도움이
-될 수 있다고 봤지만, Chronos-2는 RMSE `0.024300`과 수익률 `-24.64%`를 기록했다. 예측의
-`95.74%`가 HOLD였고 Macro F1도 `0.252000`에 머물렀다. SHORT와 LONG recall은 각각
-`0.0220`, `0.0233`이었다. 여기에 Rolling 3의 음의 상관까지 고려하면, 현재 설정에서 예측
-관계가 Regime을 넘어 안정적으로 이어졌다고 보기는 어렵다.
-
-TimesFM은 방향 정확도만 보면 `49.83%`로 가장 높았다. 하지만 50%에 못 미쳤고 Pearson은
-`-0.0973`이었다. RMSE `0.024992`는 Regression 모델 중 가장 컸으며, `89.38%`의 예측이
-HOLD에 몰렸다. Macro F1 `0.287013`과 수익률 `-30.96%`도 우위를 뒷받침하지 못했다. 적어도
-이번 close-only 64시간 조건에서는 사전학습과 LoRA를 사용했다는 사실만으로 기존 baseline이나
-Cryptova보다 나은 결과가 나오지는 않았다.
-
-### 5.6 모델별 최적 활용 목적
+### 5.5 모델별 최적 활용 목적
 
 여기서 `최적`은 모델의 보편적인 우수성을 의미하지 않는다. **현재 BTC 데이터, 동일 Rolling
 Test 기간, 미래 24시간 target, 고정 threshold, 거래비용 및 evaluator 안에서 확인된 상대적
@@ -1052,7 +1015,7 @@ Foundation model의 전이 성능과 확률예측 연구
 → Chronos-2 / TimesFM 2.5
 ```
 
-### 5.7 모델별 장점과 단점
+### 5.6 모델별 장점과 단점
 
 구조적 장점은 모델 설계상 가능한 능력이고, 실험상 장점은 이번 Connected OOS에서 실제로
 확인된 결과다. 구조적 장점이 이번 데이터에서 반드시 성능 향상으로 나타나는 것은 아니다.

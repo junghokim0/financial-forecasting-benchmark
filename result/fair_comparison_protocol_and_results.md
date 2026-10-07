@@ -1156,14 +1156,14 @@ Cryptova의 분류 강점은 단기 하락과 고변동성 구간에서 가장 �
 `UP_HIGH`, `DOWN_HIGH`, `SIDEWAYS_HIGH`를 합친 값이다. 아래 표는 두 조건을 결합한
 6개 복합 Regime을 각각 분리해 계산한 결과다.
 
-| 복합 Regime | 의미 | 최고 Macro F1 모델 | Macro F1 |
-|---|---|---|---:|
-| 상승·고변동성 (`UP_HIGH`) | 단기 상승이면서 고변동성 | Cryptova-Base | 0.362986 |
-| 상승·저변동성 (`UP_LOW`) | 단기 상승이면서 저변동성 | TimesNet Classifier | 0.351864 |
-| 하락·고변동성 (`DOWN_HIGH`) | 단기 하락이면서 고변동성 | Cryptova-Raw | 0.431269 |
-| 하락·저변동성 (`DOWN_LOW`) | 단기 하락이면서 저변동성 | TimesNet Classifier | 0.354073 |
-| 중립·고변동성 (`SIDEWAYS_HIGH`) | 단기 중립이면서 고변동성 | Cryptova-Base | 0.398617 |
-| 중립·저변동성 (`SIDEWAYS_LOW`) | 단기 중립이면서 저변동성 | TimesNet Classifier | 0.353759 |
+| 복합 Regime | 의미 | 최고 Macro F1 모델 | Macro F1 | SHORT Recall | HOLD Recall | LONG Recall |
+|---|---|---|---:|---:|---:|---:|
+| 상승·고변동성 (`UP_HIGH`) | 단기 상승이면서 고변동성 | Cryptova-Base | 0.362986 | 0.190311 | 0.630872 | 0.375000 |
+| 상승·저변동성 (`UP_LOW`) | 단기 상승이면서 저변동성 | TimesNet Classifier | 0.351864 | 0.240175 | 0.658915 | 0.171429 |
+| 하락·고변동성 (`DOWN_HIGH`) | 단기 하락이면서 고변동성 | Cryptova-Raw | 0.431269 | 0.293532 | 0.452862 | 0.583548 |
+| 하락·저변동성 (`DOWN_LOW`) | 단기 하락이면서 저변동성 | TimesNet Classifier | 0.354073 | 0.194888 | 0.711149 | 0.173228 |
+| 중립·고변동성 (`SIDEWAYS_HIGH`) | 단기 중립이면서 고변동성 | Cryptova-Base | 0.398617 | 0.193103 | 0.584775 | 0.440559 |
+| 중립·저변동성 (`SIDEWAYS_LOW`) | 단기 중립이면서 저변동성 | TimesNet Classifier | 0.353759 | 0.291066 | 0.667313 | 0.116129 |
 
 ![복합 Regime별 신호 분류 성능](figures/combined-regime-macro-f1.svg)
 
